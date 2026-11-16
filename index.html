@@ -134,20 +134,7 @@ function analyzeCareer(event) {
 
         ". Keep improving your technical skills and gain practical experience through projects.";
 
-    const recommendations = [
-
-        "Programming and coding",
-
-        "Problem solving",
-
-        "Data structures and algorithms",
-
-        "Communication and teamwork",
-
-        "Building real-world projects"
-
-    ];
-
+    
     document.getElementById("skill-suggestions").innerHTML =
 
         recommendations.map(skill => "<li>" + skill + "</li>").join("");
@@ -159,6 +146,90 @@ function analyzeCareer(event) {
         behavior: "smooth"
 
     });
+
+
+
+const normalizedGoal = goal.toLowerCase();
+
+let recommendations;
+
+if (
+
+    normalizedGoal.includes("artificial intelligence") ||
+
+    normalizedGoal.includes("ai engineer")
+
+) {
+
+    recommendations = [
+
+        "Python Programming",
+
+        "Machine Learning",
+
+        "Mathematics and Statistics",
+
+        "Data Structures and Algorithms",
+
+        "Deep Learning"
+
+    ];
+
+}
+
+else if (normalizedGoal.includes("web developer")) {
+
+    recommendations = [
+
+        "HTML",
+
+        "CSS",
+
+        "JavaScript",
+
+        "React",
+
+        "Responsive Web Design"
+
+    ];
+
+}
+
+else if (normalizedGoal.includes("data scientist")) {
+
+    recommendations = [
+
+        "Python",
+
+        "SQL",
+
+        "Statistics",
+
+        "Data Analysis",
+
+        "Machine Learning"
+
+    ];
+
+}
+
+else {
+
+    recommendations = [
+
+        "Programming Fundamentals",
+
+        "Problem Solving",
+
+        "Communication",
+
+        "Teamwork",
+
+        "Practical Projects"
+
+    ];
+
+}
 
 }
   </script>
