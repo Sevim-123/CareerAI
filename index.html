@@ -102,19 +102,21 @@
 
     }
 
-    function analyzeCareer(event) {
+    
 
-      event.preventDefault();
+function analyzeCareer(event) {
 
-      const education = document.getElementById("education").value;
+    event.preventDefault();
 
-      const skills = document.getElementById("skills").value;
+    const education = document.getElementById("education").value;
 
-      const goal = document.getElementById("goal").value;
+    const skills = document.getElementById("skills").value;
 
-      const experience = document.getElementById("experience").value;
+    const goal = document.getElementById("goal").value;
 
-      document.getElementById("result").innerHTML =
+    const experience = document.getElementById("experience").value;
+
+    document.getElementById("result").innerHTML =
 
         "<h3>Your Career Profile</h3>" +
 
@@ -126,10 +128,51 @@
 
         "<p><b>Experience:</b> " + experience + "</p>";
 
-    }
+    document.getElementById("career-suggestion").textContent =
 
+        "Your career goal is " + goal +
+
+        ". Keep improving your technical skills and gain practical experience through projects.";
+
+    const recommendations = [
+
+        "Programming and coding",
+
+        "Problem solving",
+
+        "Data structures and algorithms",
+
+        "Communication and teamwork",
+
+        "Building real-world projects"
+
+    ];
+
+    document.getElementById("skill-suggestions").innerHTML =
+
+        recommendations.map(skill => "<li>" + skill + "</li>").join("");
+
+    document.getElementById("ai-result").style.display = "block";
+
+    document.getElementById("ai-result").scrollIntoView({
+
+        behavior: "smooth"
+
+    });
+
+}
   </script>
+<div id="ai-result" style="display:none;">
 
+    <h2>Your Career Analysis</h2>
+
+    <p id="career-suggestion"></p>
+
+    <h3>Recommended Skills</h3>
+
+    <ul id="skill-suggestions"></ul>
+
+</div>
 </body>
 
 </html>
