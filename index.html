@@ -1,249 +1,283 @@
 
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerAI</title>
 
-  <meta charset="UTF-8">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4ff;
+            color: #202044;
+        }
 
-  <title>CareerAI</title>
+        header {
+            background: #25245a;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
 
-  <link rel="stylesheet" href="style.css">
+        main {
+            max-width: 750px;
+            margin: 45px auto;
+            padding: 20px;
+        }
 
+        .hero, .form-box, .result-box {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 13px;
+            margin: 9px 0 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #5552c9;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #39369d;
+        }
+
+        #career-form, #ai-result {
+            display: none;
+        }
+
+        .result-box {
+            border-left: 5px solid #5552c9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+    </style>
 </head>
 
 <body>
 
-  <header>
+<header>
+    <h2>CareerAI</h2>
+    <p>Your AI-Powered Career Guide</p>
+</header>
 
-    <h2>CareerAI.</h2>
-
-    <nav>
-
-      <a href="#">Home</a>
-
-      <a href="#about">About</a>
-
-      <a href="#features">Features</a>
-
-    </nav>
-
-  </header>
-
-  <main>
+<main>
 
     <section class="hero">
+        <h1>Build Your Future With AI</h1>
+        <p>
+            Discover your career path, identify your strengths
+            and find the skills you need to succeed.
+        </p>
+        <button onclick="showForm()">Get Started</button>
+    </section>
 
-      <h1>Build Your Future With <span>AI</span></h1>
+    <section id="career-form" class="form-box">
 
-      <p>Your personal AI-powered career assistant.</p>
+        <h2>Career Assessment</h2>
 
-      <button onclick="showForm()">Get Started</button>
+        <form onsubmit="analyzeCareer(event)">
+
+            <label>Education Level</label>
+            <input
+                type="text"
+                id="education"
+                placeholder="e.g. University Student"
+                required
+            >
+
+            <label>Your Skills</label>
+            <textarea
+                id="skills"
+                placeholder="e.g. Python, C Programming, Mathematics"
+                required
+            ></textarea>
+
+            <label>Career Goal</label>
+            <input
+                type="text"
+                id="goal"
+                placeholder="e.g. Artificial Intelligence Engineer"
+                required
+            >
+
+            <label>Experience Level</label>
+            <select id="experience" required>
+                <option value="">Select your experience</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+            </select>
+
+            <button type="submit">Analyze My Career</button>
+
+        </form>
+    </section>
+
+    <section id="ai-result" class="result-box">
+
+        <h2>Your Career Analysis</h2>
+
+        <div id="result"></div>
+
+        <h3>Career Recommendation</h3>
+        <p id="career-suggestion"></p>
+
+        <h3>Recommended Skills</h3>
+        <ul id="skill-suggestions"></ul>
 
     </section>
 
-    <section id="career-form" style="display:none;">
+</main>
 
-      <h2>Career Analysis</h2>
+<footer>
+    <p>CareerAI © 2026 | Build Your Future</p>
+</footer>
 
-      <form onsubmit="analyzeCareer(event)">
+<script>
 
-        <label>Education</label>
+function showForm() {
 
-        <input id="education" type="text" placeholder="Your education" required>
+    document.getElementById("career-form").style.display = "block";
 
-        <label>Skills</label>
+    document.getElementById("career-form").scrollIntoView({
+        behavior: "smooth"
+    });
 
-        <input id="skills" type="text" placeholder="Your skills" required>
-
-        <label>Career Goal</label>
-
-        <input id="goal" type="text" placeholder="Your career goal" required>
-
-        <label>Experience Level</label>
-
-        <select id="experience">
-
-          <option>Beginner</option>
-
-          <option>Intermediate</option>
-
-          <option>Advanced</option>
-
-        </select>
-
-        <button type="submit">Analyze My Career</button>
-
-      </form>
-
-      <div id="result"></div>
-
-    </section>
-
-  </main>
-
-  <footer>
-
-    <p>© 2026 CareerAI. All rights reserved.</p>
-
-  </footer>
-
-  <script>
-
-    function showForm() {
-
-      document.getElementById("career-form").style.display = "block";
-
-      document.getElementById("career-form").scrollIntoView();
-
-    }
-
-    
+}
 
 function analyzeCareer(event) {
 
     event.preventDefault();
 
     const education = document.getElementById("education").value;
-
     const skills = document.getElementById("skills").value;
-
     const goal = document.getElementById("goal").value;
-
     const experience = document.getElementById("experience").value;
 
     document.getElementById("result").innerHTML =
-
-        "<h3>Your Career Profile</h3>" +
-
         "<p><b>Education:</b> " + education + "</p>" +
-
         "<p><b>Skills:</b> " + skills + "</p>" +
-
         "<p><b>Career Goal:</b> " + goal + "</p>" +
-
         "<p><b>Experience:</b> " + experience + "</p>";
 
-    document.getElementById("career-suggestion").textContent =
+    const normalizedGoal = goal.toLowerCase();
 
-        "Your career goal is " + goal +
+    let recommendations;
+    let suggestion;
 
-        ". Keep improving your technical skills and gain practical experience through projects.";
+    if (
+        normalizedGoal.includes("artificial intelligence") ||
+        normalizedGoal.includes("ai engineer")
+    ) {
 
-    
+        suggestion = "Artificial Intelligence Engineering is your target career. Focus on programming, mathematics and machine learning.";
+
+        recommendations = [
+            "Python Programming",
+            "Machine Learning",
+            "Mathematics and Statistics",
+            "Data Structures and Algorithms",
+            "Deep Learning"
+        ];
+
+    }
+
+    else if (
+        normalizedGoal.includes("web developer")
+    ) {
+
+        suggestion = "Web Development is your target career. Focus on building interactive and responsive websites.";
+
+        recommendations = [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "React",
+            "Responsive Web Design"
+        ];
+
+    }
+
+    else if (
+        normalizedGoal.includes("data scientist")
+    ) {
+
+        suggestion = "Data Science is your target career. Focus on data analysis, statistics and programming.";
+
+        recommendations = [
+            "Python",
+            "SQL",
+            "Statistics",
+            "Data Analysis",
+            "Machine Learning"
+        ];
+
+    }
+
+    else {
+
+        suggestion = "Explore your interests, strengthen your technical skills and gain experience through practical projects.";
+
+        recommendations = [
+            "Programming Fundamentals",
+            "Problem Solving",
+            "Communication",
+            "Teamwork",
+            "Practical Projects"
+        ];
+
+    }
+
+    document.getElementById("career-suggestion").textContent = suggestion;
+
     document.getElementById("skill-suggestions").innerHTML =
-
-        recommendations.map(skill => "<li>" + skill + "</li>").join("");
+        recommendations.map(function(skill) {
+            return "<li>" + skill + "</li>";
+        }).join("");
 
     document.getElementById("ai-result").style.display = "block";
 
     document.getElementById("ai-result").scrollIntoView({
-
         behavior: "smooth"
-
     });
 
-
-
-const normalizedGoal = goal.toLowerCase();
-
-let recommendations;
-
-if (
-
-    normalizedGoal.includes("artificial intelligence") ||
-
-    normalizedGoal.includes("ai engineer")
-
-) {
-
-    recommendations = [
-
-        "Python Programming",
-
-        "Machine Learning",
-
-        "Mathematics and Statistics",
-
-        "Data Structures and Algorithms",
-
-        "Deep Learning"
-
-    ];
-
 }
 
-else if (normalizedGoal.includes("web developer")) {
+</script>
 
-    recommendations = [
-
-        "HTML",
-
-        "CSS",
-
-        "JavaScript",
-
-        "React",
-
-        "Responsive Web Design"
-
-    ];
-
-}
-
-else if (normalizedGoal.includes("data scientist")) {
-
-    recommendations = [
-
-        "Python",
-
-        "SQL",
-
-        "Statistics",
-
-        "Data Analysis",
-
-        "Machine Learning"
-
-    ];
-
-}
-
-else {
-
-    recommendations = [
-
-        "Programming Fundamentals",
-
-        "Problem Solving",
-
-        "Communication",
-
-        "Teamwork",
-
-        "Practical Projects"
-
-    ];
-
-}
-
-}
-  </script>
-<div id="ai-result" style="display:none;">
-
-    <h2>Your Career Analysis</h2>
-
-    <p id="career-suggestion"></p>
-
-    <h3>Recommended Skills</h3>
-
-    <ul id="skill-suggestions"></ul>
-
-</div>
 </body>
-
 </html>
