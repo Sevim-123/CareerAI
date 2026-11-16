@@ -40,7 +40,51 @@
 
         <p>Discover your potential. Find your career path. Prepare for success.</p>
 
-        <button>Get Started</button>
+        <button onclick="showForm()">Get Started</button>
+
+    </section>
+
+    <section id="career-form" style="display:none; padding:40px 20px; text-align:center;">
+
+        <h2>Let's Discover Your Career Path!</h2>
+
+        <p>Tell us a little about yourself.</p>
+
+        <form onsubmit="analyzeCareer(event)">
+
+            <p>Education</p>
+
+            <input id="education" type="text" placeholder="Your department" required>
+
+            <p>Your Skills</p>
+
+            <input id="skills" type="text" placeholder="Python, C, Java..." required>
+
+            <p>Career Goal</p>
+
+            <input id="goal" type="text" placeholder="Your dream job" required>
+
+            <p>Experience Level</p>
+
+            <select id="experience" required>
+
+                <option value="">Select your level</option>
+
+                <option>Beginner</option>
+
+                <option>Intermediate</option>
+
+                <option>Advanced</option>
+
+            </select>
+
+            <br><br>
+
+            <button type="submit">Analyze My Career</button>
+
+        </form>
+
+        <div id="result"></div>
 
     </section>
 
@@ -49,6 +93,48 @@
         © 2026 CareerAI. All rights reserved.
 
     </footer>
+
+    <script>
+
+        function showForm() {
+
+            document.getElementById("career-form").style.display = "block";
+
+            document.getElementById("career-form").scrollIntoView({
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+        function analyzeCareer(event) {
+
+            event.preventDefault();
+
+            const education = document.getElementById("education").value;
+
+            const skills = document.getElementById("skills").value;
+
+            const goal = document.getElementById("goal").value;
+
+            const experience = document.getElementById("experience").value;
+
+            document.getElementById("result").innerHTML =
+
+                "<h3>Your Profile</h3>" +
+
+                "<p>Education: " + education + "</p>" +
+
+                "<p>Skills: " + skills + "</p>" +
+
+                "<p>Career Goal: " + goal + "</p>" +
+
+                "<p>Experience: " + experience + "</p>";
+
+        }
+
+    </script>
 
 </body>
 
