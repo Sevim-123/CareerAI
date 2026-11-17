@@ -3,142 +3,606 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Analyzer</title>
+  <title>Career Analysis & Roadmap</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef2f7;
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --primary: #3b49df;
+      --primary-hover: #2f3bc4;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success-bg: #dcfce7;
+      --success-text: #166534;
+      --warn-bg: #fef3c7;
+      --warn-text: #92400e;
+      --chip-bg: #eef2ff;
+      --chip-text: #3730a3;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 20px;
-      color: #1e293b;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    .box {
-      max-width: 480px;
-      margin: 0 auto 20px;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+
+    body {
+      background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 28px 16px;
     }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .badge-top {
+      display: inline-block;
+      background: var(--chip-bg);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 820px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
     label {
       display: block;
-      margin-top: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
       margin-bottom: 6px;
-      font-weight: bold;
-      font-size: 14px;
+      color: #334155;
     }
+
     input, select {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 15px;
-      box-sizing: border-box;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
     }
-    button {
-      width: 100%;
-      margin-top: 16px;
-      padding: 12px;
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 73, 223, 0.15);
+    }
+
+    .quick-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .quick-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      color: #334155;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .quick-btn:hover {
+      background: var(--chip-bg);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: var(--primary);
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      background: #4f5d95;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
     }
-    h2 {
-      text-align: center;
-      margin-top: 0;
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
     }
-    p {
-      line-height: 1.5;
+
+    /* Result Styling */
+    .result-area {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .chip {
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    .score-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b49df, #10b981);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    .section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 16px 0 10px;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .skill-tag.have {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .skill-tag.missing {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .step-box {
+      border-left: 3.5px solid var(--primary);
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .step-box strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 3px;
+    }
+
+    .step-box p {
+      font-size: 0.88rem;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    .copy-btn {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      cursor: pointer;
+      color: #334155;
+    }
+
+    .copy-btn:hover {
+      background: #e2e8f0;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <span class="badge-top">Smart Career Pathfinder</span>
+      <h1>Career Skill & Roadmap Analyzer</h1>
+      <p>Enter your current skills and target role to get a structured skill gap analysis and step-by-step roadmap.</p>
+    </header>
 
-  <div class="box">
-    <label for="skills">Your Skills</label>
-    <input type="text" id="skills" value="Python ,c" />
+    <div class="grid">
+      <!-- Left Card: Form -->
+      <div class="card">
+        <h2>Your Profile</h2>
 
-    <label for="goal">Career Goal</label>
-    <input type="text" id="goal" value="Artificial intelligence" />
+        <div class="form-group">
+          <label for="skillsInput">Your Skills (comma separated)</label>
+          <input type="text" id="skillsInput" value="Python, C" placeholder="e.g. Python, C, SQL, Git" />
+          <div class="quick-skills">
+            <button type="button" class="quick-btn" onclick="addSkill('Python')">+ Python</button>
+            <button type="button" class="quick-btn" onclick="addSkill('C')">+ C</button>
+            <button type="button" class="quick-btn" onclick="addSkill('C++')">+ C++</button>
+            <button type="button" class="quick-btn" onclick="addSkill('JavaScript')">+ JavaScript</button>
+            <button type="button" class="quick-btn" onclick="addSkill('HTML/CSS')">+ HTML/CSS</button>
+            <button type="button" class="quick-btn" onclick="addSkill('SQL')">+ SQL</button>
+            <button type="button" class="quick-btn" onclick="addSkill('Git')">+ Git</button>
+          </div>
+        </div>
 
-    <label for="level">Experience Level</label>
-    <select id="level">
-      <option value="Beginner" selected>Beginner</option>
-      <option value="Intermediate">Intermediate</option>
-      <option value="Advanced">Advanced</option>
-    </select>
+        <div class="form-group">
+          <label for="goalInput">Career Goal</label>
+          <input type="text" id="goalInput" list="goalSuggestions" value="Artificial Intelligence" placeholder="e.g. Artificial Intelligence, Web Development" />
+          <datalist id="goalSuggestions">
+            <option value="Artificial Intelligence"></option>
+            <option value="Web Development"></option>
+            <option value="Data Science"></option>
+            <option value="Embedded Systems & IoT"></option>
+            <option value="Cybersecurity"></option>
+          </datalist>
+        </div>
 
-    <button type="button" onclick="updateResult()">Analyze My Career</button>
-  </div>
+        <div class="form-group">
+          <label for="levelSelect">Experience Level</label>
+          <select id="levelSelect">
+            <option value="Beginner" selected>Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
 
-  <div class="box">
-    <h2>Your Career Analysis</h2>
-    <p><strong>Skills:</strong> <span id="resSkills">Python ,c</span></p>
-    <p><strong>Career Goal:</strong> <span id="resGoal">Artificial intelligence</span></p>
-    <p><strong>Experience:</strong> <span id="resLevel">Beginner</span></p>
-    <p><strong>Career Recommendation:</strong> <span id="resRec"></span></p>
-    <p><strong>Recommended Skills:</strong></p>
-    <ul id="resList"></ul>
+        <div class="btn-row">
+          <button type="button" class="btn-primary" onclick="analyzeCareer()">Analyze My Career</button>
+          <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+      </div>
+
+      <!-- Right Card: Analysis Result -->
+      <div class="card result-area" id="resultCard">
+        <h2>
+          <span>Your Career Analysis</span>
+          <button type="button" class="copy-btn" onclick="copyReport()" id="copyBtn">Copy Summary</button>
+        </h2>
+
+        <div class="meta-chips" id="metaChips"></div>
+
+        <div class="score-box">
+          <div class="score-header">
+            <span>Goal Readiness Score</span>
+            <span id="scoreText">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="scoreBar" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="section-title">Skill Gap Breakdown</div>
+        <div class="skill-list" id="skillList"></div>
+
+        <div class="section-title">Recommended Action Roadmap</div>
+        <div class="roadmap" id="roadmapList"></div>
+      </div>
+    </div>
   </div>
 
   <script>
-    function updateResult() {
-      var skillsInput = document.getElementById("skills");
-      var goalInput = document.getElementById("goal");
-      var levelInput = document.getElementById("level");
-
-      var skillsText = skillsInput ? skillsInput.value : "Python ,c";
-      var goalText = goalInput ? goalInput.value : "Artificial intelligence";
-      var levelText = levelInput ? levelInput.value : "Beginner";
-
-      var resSkills = document.getElementById("resSkills");
-      var resGoal = document.getElementById("resGoal");
-      var resLevel = document.getElementById("resLevel");
-
-      if (resSkills) resSkills.textContent = skillsText;
-      if (resGoal) resGoal.textContent = goalText;
-      if (resLevel) resLevel.textContent = levelText;
-
-      var goalLower = goalText.toLowerCase();
-      var recText = "Focus on programming, mathematics and machine learning.";
-      var skillList = ["Python Programming", "Machine Learning", "Mathematics and Statistics", "Data Structures and Algorithms", "Deep Learning"];
-
-      if (goalLower.indexOf("web") !== -1) {
-        recText = "Focus on HTML, CSS, JavaScript and building web projects.";
-        skillList = ["HTML & CSS", "JavaScript", "React", "APIs", "Git"];
-      } else if (goalLower.indexOf("data") !== -1) {
-        recText = "Focus on SQL, Python data libraries and data visualization.";
-        skillList = ["Python", "SQL", "Pandas", "Statistics", "Data Visualization"];
-      }
-
-      var resRec = document.getElementById("resRec");
-      if (resRec) resRec.textContent = recText;
-
-      var userSkills = skillsText.toLowerCase().split(",");
-      var ul = document.getElementById("resList");
-      if (ul) {
-        ul.innerHTML = "";
-        for (var i = 0; i < skillList.length; i++) {
-          var item = skillList[i];
-          var li = document.createElement("li");
-          var matched = false;
-          for (var j = 0; j < userSkills.length; j++) {
-            var u = userSkills[j].replace(/^\s+|\s+$/g, "");
-            if (u && item.toLowerCase().indexOf(u) !== -1) {
-              matched = true;
-            }
-          }
-          li.textContent = matched ? item + " (You have this)" : item;
-          ul.appendChild(li);
+    const careerDatabase = {
+      "artificial intelligence": {
+        skills: ["Python", "Math & Statistics", "Data Structures", "Machine Learning", "Deep Learning", "Git"],
+        roadmap: {
+          Beginner: [
+            { title: "Phase 1: Core Foundations", desc: "Strengthen Python fundamentals, linear algebra, probability, and basic data structures." },
+            { title: "Phase 2: Classical ML", desc: "Learn NumPy, Pandas, and Scikit-Learn to build regression and classification models." },
+            { title: "Phase 3: Neural Networks & Projects", desc: "Explore PyTorch or TensorFlow and publish 2 end-to-end AI projects on GitHub." }
+          ],
+          Intermediate: [
+            { title: "Phase 1: Deep Learning Specialization", desc: "Master CNNs, Transformers, and model optimization techniques." },
+            { title: "Phase 2: Model Deployment", desc: "Wrap models in FastAPI/Docker and deploy interactive demos." },
+            { title: "Phase 3: Research & Evaluation", desc: "Read recent papers, fine-tune open-source models, and track experiments." }
+          ],
+          Advanced: [
+            { title: "Phase 1: Scalable AI Systems", desc: "Focus on distributed training, quantization, and inference optimization." },
+            { title: "Phase 2: MLOps & Monitoring", desc: "Automate CI/CD pipelines, drift detection, and production model evaluation." },
+            { title: "Phase 3: Domain Leadership", desc: "Contribute to open-source AI frameworks or publish benchmarked research." }
+          ]
         }
+      },
+      "web development": {
+        skills: ["HTML/CSS", "JavaScript", "Git", "React", "Node.js", "SQL"],
+        roadmap: {
+          Beginner: [
+            { title: "Phase 1: Web Core", desc: "Build responsive layouts with semantic HTML, modern CSS, and vanilla JavaScript." },
+            { title: "Phase 2: Frontend Framework", desc: "Learn component-based UI development using React and REST API integration." },
+            { title: "Phase 3: Full-Stack Basics", desc: "Connect a Node.js backend with a relational database and deploy your portfolio." }
+          ],
+          Intermediate: [
+            { title: "Phase 1: TypeScript & Architecture", desc: "Adopt TypeScript, state management, and clean modular folder structures." },
+            { title: "Phase 2: Authentication & Databases", desc: "Implement JWT/OAuth security, caching, and optimized SQL queries." },
+            { title: "Phase 3: Testing & CI/CD", desc: "Write automated unit/integration tests and configure GitHub Actions." }
+          ],
+          Advanced: [
+            { title: "Phase 1: Performance & Scalability", desc: "Optimize Core Web Vitals, SSR/ISR rendering, and load balancing." },
+            { title: "Phase 2: Cloud & Microservices", desc: "Design containerized services with Docker, Kubernetes, and cloud infra." },
+            { title: "Phase 3: System Design", desc: "Architect high-availability applications and lead code reviews." }
+          ]
+        }
+      },
+      "embedded systems & iot": {
+        skills: ["C", "C++", "Microcontrollers", "Sensors & Protocols", "Python", "Git"],
+        roadmap: {
+          Beginner: [
+            { title: "Phase 1: C & Hardware Basics", desc: "Master pointers, bitwise operations in C, and basic circuit fundamentals." },
+            { title: "Phase 2: Microcontroller Programming", desc: "Work with ESP32/Arduino using GPIO, UART, I2C, and SPI protocols." },
+            { title: "Phase 3: Connected IoT Prototype", desc: "Send sensor data over Wi-Fi/MQTT to a dashboard with safety alerts." }
+          ],
+          Intermediate: [
+            { title: "Phase 1: RTOS & Interrupts", desc: "Implement FreeRTOS tasks, hardware timers, and low-power sleep modes." },
+            { title: "Phase 2: PCB & Reliability", desc: "Design custom schematics and add watchdog timers and error recovery." },
+            { title: "Phase 3: Edge Processing", desc: "Run lightweight filtering or TinyML inference directly on the device." }
+          ],
+          Advanced: [
+            { title: "Phase 1: Embedded Linux & Drivers", desc: "Develop custom kernel modules and Yocto/Buildroot images." },
+            { title: "Phase 2: Secure OTA Updates", desc: "Implement encrypted firmware updates and hardware root-of-trust." },
+            { title: "Phase 3: Industrial Compliance", desc: "Optimize EMC/EMI performance and scale hardware production." }
+          ]
+        }
+      }
+    };
+
+    function parseSkills(raw) {
+      return raw
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+    }
+
+    function addSkill(skillName) {
+      const input = document.getElementById("skillsInput");
+      const current = parseSkills(input.value);
+      const exists = current.some(s => s.toLowerCase() === skillName.toLowerCase());
+      if (!exists) {
+        current.push(skillName);
+        input.value = current.join(", ");
       }
     }
 
-    updateResult();
+    function analyzeCareer() {
+      const rawSkills = document.getElementById("skillsInput").value;
+      const userSkills = parseSkills(rawSkills);
+      const goalRaw = document.getElementById("goalInput").value.trim() || "Artificial Intelligence";
+      const level = document.getElementById("levelSelect").value;
+
+      // Clean input display
+      document.getElementById("skillsInput").value = userSkills.join(", ");
+
+      const key = goalRaw.toLowerCase();
+      const matchedTrack = careerDatabase[key] || {
+        skills: ["Python", "Problem Solving", "Git", "System Design", "Data Analysis", "Communication"],
+        roadmap: {
+          Beginner: [
+            { title: "Phase 1: Core Fundamentals", desc: `Build strong programming and theoretical foundations tailored to ${goalRaw}.` },
+            { title: "Phase 2: Guided Projects", desc: `Create 2–3 hands-on portfolio projects solving real problems in ${goalRaw}.` },
+            { title: "Phase 3: Community & Portfolio", desc: "Document your work on GitHub and connect with peers in the field." }
+          ],
+          Intermediate: [
+            { title: "Phase 1: Specialized Tooling", desc: `Master industry-standard frameworks and workflows used in ${goalRaw}.` },
+            { title: "Phase 2: End-to-End Systems", desc: "Build production-ready applications with testing and clean architecture." },
+            { title: "Phase 3: Collaboration", desc: "Contribute to team projects, hackathons, or open-source repositories." }
+          ],
+          Advanced: [
+            { title: "Phase 1: Optimization & Scale", desc: `Focus on performance tuning, reliability, and advanced patterns in ${goalRaw}.` },
+            { title: "Phase 2: Architecture & Mentoring", desc: "Design scalable solutions and mentor junior developers." },
+            { title: "Phase 3: Thought Leadership", desc: "Publish technical articles, benchmarks, or open-source tools." }
+          ]
+        }
+      };
+
+      // Update top chips
+      const metaChips = document.getElementById("metaChips");
+      metaChips.innerHTML = `
+        <span class="chip">Goal: ${goalRaw}</span>
+        <span class="chip">Level: ${level}</span>
+        <span class="chip">Entered Skills: ${userSkills.length}</span>
+      `;
+
+      // Match skills case-insensitively
+      const userLower = userSkills.map(s => s.toLowerCase());
+      let matchedCount = 0;
+
+      const skillList = document.getElementById("skillList");
+      skillList.innerHTML = "";
+
+      matchedTrack.skills.forEach(reqSkill => {
+        const hasIt = userLower.some(u => u === reqSkill.toLowerCase() || reqSkill.toLowerCase().includes(u) && u.length > 1);
+        if (hasIt) matchedCount++;
+
+        const tag = document.createElement("span");
+        tag.className = `skill-tag ${hasIt ? "have" : "missing"}`;
+        tag.textContent = hasIt ? `✓ ${reqSkill} (Already have)` : `+ ${reqSkill} (Recommended)`;
+        skillList.appendChild(tag);
+      });
+
+      // Also show extra user skills not in the core list
+      userSkills.forEach(uSkill => {
+        const inCore = matchedTrack.skills.some(r => r.toLowerCase() === uSkill.toLowerCase() || r.toLowerCase().includes(uSkill.toLowerCase()));
+        if (!inCore) {
+          const tag = document.createElement("span");
+          tag.className = "skill-tag have";
+          tag.textContent = `✓ ${uSkill} (Bonus skill)`;
+          skillList.appendChild(tag);
+        }
+      });
+
+      // Readiness score
+      const baseScore = Math.round((matchedCount / matchedTrack.skills.length) * 100);
+      const bonus = Math.min(15, Math.max(0, (userSkills.length - matchedCount) * 5));
+      const finalScore = Math.min(100, baseScore + bonus);
+
+      document.getElementById("scoreText").textContent = `${finalScore}%`;
+      document.getElementById("scoreBar").style.width = `${finalScore}%`;
+
+      // Roadmap steps
+      const roadmapList = document.getElementById("roadmapList");
+      roadmapList.innerHTML = "";
+      const steps = matchedTrack.roadmap[level] || matchedTrack.roadmap.Beginner;
+
+      steps.forEach(step => {
+        const div = document.createElement("div");
+        div.className = "step-box";
+        div.innerHTML = `<strong>${step.title}</strong><p>${step.desc}</p>`;
+        roadmapList.appendChild(div);
+      });
+
+      // Re-trigger subtle animation
+      const card = document.getElementById("resultCard");
+      card.classList.remove("result-area");
+      void card.offsetWidth;
+      card.classList.add("result-area");
+    }
+
+    function resetForm() {
+      document.getElementById("skillsInput").value = "";
+      document.getElementById("goalInput").value = "Artificial Intelligence";
+      document.getElementById("levelSelect").value = "Beginner";
+      analyzeCareer();
+    }
+
+    function copyReport() {
+      const goal = document.getElementById("goalInput").value;
+      const level = document.getElementById("levelSelect").value;
+      const score = document.getElementById("scoreText").textContent;
+      const skills = Array.from(document.querySelectorAll("#skillList .skill-tag"))
+        .map(el => "- " + el.textContent)
+        .join("\n");
+
+      const text = `Career Analysis (${goal} - ${level})\nReadiness: ${score}\n\nSkills:\n${skills}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById("copyBtn");
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy Summary"), 1500);
+      });
+    }
+
+    // Run initial analysis on page load
+    window.addEventListener("DOMContentLoaded", analyzeCareer);
   </script>
 </body>
 </html>
