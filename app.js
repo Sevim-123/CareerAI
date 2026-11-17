@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const { tracks, skillAliases, resources } = window.CareerData;
+  const { tracks, skillAliases, resources, profile } = window.CareerData;
   const STORAGE_KEY = "career_analyzer_state_v3";
   const LEVELS = ["Beginner", "Intermediate", "Advanced"];
   const DEFAULT_QUICK_SKILLS = ["Python", "C", "C++", "JavaScript", "HTML/CSS", "SQL", "Git"];
@@ -106,6 +106,148 @@
     }
   }
 
+  /* ---------- Profile (About You) ---------- */
+
+  function fillSelect(selectId, entries, defaultValue) {
+    const select = $(selectId);
+    entries.forEach(([value, label]) => {
+      const opt = new Option(label, value);
+      if (value === defaultValue) {
+        opt.defaultSelected = true;
+        opt.selected = true;
+      }
+      select.add(opt);
+    });
+  }
+
+  function setupProfileFields() {
+    fillSelect("hoursSelect",
+      profile.hours.map(h => [String(h), `${h} hours / week${h === profile.baselineHours ? " (standard)" : ""}`]),
+      String(profile.baselineHours));
+    fillSelect("educationSelect", Object.entries(profile.education).map(([k, v]) => [k, v.label]));
+    fillSelect("goalTypeSelect", Object.entries(profile.goalTypes).map(([k, v]) => [k, v.label]));
+    fillSelect("styleSelect", Object.entries(profile.learningStyles).map(([k, v]) => [k, v.label]));
+  }
+
+  function readProfile() {
+    const hours = Number($("hoursSelect").value) || profile.baselineHours;
+    return {
+      hours,
+      edu: profile.education[$("educationSelect").value] ? $("educationSelect").value : "",
+      dept: $("departmentInput").value.trim().replace(/\s+/g, " ").slice(0, 60),
+      gtype: profile.goalTypes[$("goalTypeSelect").value] ? $("goalTypeSelect").value : "",
+      style: profile.learningStyles[$("styleSelect").value] ? $("styleSelect").value : ""
+    };
+  }
+
+  function writeProfile(p) {
+    const hours = profile.hours.includes(Number(p.hours)) ? String(p.hours) : String(profile.baselineHours);
+    $("hoursSelect").value = hours;
+    $("educationSelect").value = profile.education[p.edu] ? p.edu : "";
+    $("departmentInput").value = (p.dept || "").slice(0, 60);
+    $("goalTypeSelect").value = profile.goalTypes[p.gtype] ? p.gtype : "";
+    $("styleSelect").value = profile.learningStyles[p.style] ? p.style : "";
+  }
+
+  const fillTrack = (text, track) => text.replace(/\{track\}/g, track.label);
+
+  // "Weeks 4–6" → {start: 4, end: 6}
+  function parseWeekRange(text) {
+    const m = text.match(/Weeks?\s+(\d+)(?:\s*[–-]\s*(\d+))?/);
+    return m ? { start: Number(m[1]), end: Number(m[2] || m[1]), match: m[0] } : null;
+  }
+
+  const formatWeekRange = (a, b) => (a === b ? `Week ${a}` : `Weeks ${a}–${b}`);
+
+  // Stretch or compress contiguous week ranges by `factor` (each period keeps at least 1 week).
+  function retimeTexts(texts, factor) {
+    let lastEnd = 0;
+    return texts.map(text => {
+      const range = parseWeekRange(text);
+      if (!range) return text;
+      const start = lastEnd + 1;
+      const end = Math.max(start, Math.round(range.end * factor));
+      lastEnd = end;
+      return text.replace(range.match, formatWeekRange(start, end));
+    });
+  }
+
+  // "3h …; 2h …" → scaled to the user's weekly hours (rounded to 0.5h)
+  function scaleRoutine(text, hours) {
+    return text.replace(/(\d+(?:\.\d+)?)h\b/g, (_, n) => {
+      const scaled = Math.max(0.5, Math.round((Number(n) * hours / profile.baselineHours) * 2) / 2);
+      return `${scaled}h`;
+    });
+  }
+
+  function personalizePlan(track, level, hours) {
+    const factor = profile.baselineHours / hours;
+    const base = track.studyPlan[level] || track.studyPlan.Beginner;
+    const periods = retimeTexts(base.map(r => r.period), factor);
+    const plan = base.map((row, i) => ({ ...row, period: periods[i], routine: scaleRoutine(row.routine, hours) }));
+    const lastRange = parseWeekRange(periods[periods.length - 1]);
+    const totalWeeks = lastRange ? lastRange.end : profile.baselineWeeks;
+
+    // Roadmap phases end where plan periods end, so reuse the plan's new week numbers.
+    const endMap = new Map(base.map((row, i) => [parseWeekRange(row.period)?.end, parseWeekRange(periods[i])?.end]));
+    const baseSteps = track.roadmap[level] || track.roadmap.Beginner;
+    let lastEnd = 0;
+    const roadmap = baseSteps.map(step => {
+      const range = parseWeekRange(step.title);
+      if (!range) return { ...step };
+      const start = lastEnd + 1;
+      const end = Math.max(start, endMap.get(range.end) ?? Math.round(range.end * factor));
+      lastEnd = end;
+      return { ...step, title: step.title.replace(range.match, formatWeekRange(start, end)) };
+    });
+    return { plan, roadmap, totalWeeks };
+  }
+
+  function isRelatedDepartment(dept) {
+    const folded = foldText(dept);
+    return profile.relatedDepartmentKeywords.some(k => folded.includes(k));
+  }
+
+  function buildTips(analysis) {
+    const { track, prof, totalWeeks } = analysis;
+    const tips = [];
+    if (prof.hours < profile.baselineHours) {
+      tips.push(`With ${prof.hours} h/week your plan is stretched to ${totalWeeks} weeks — steady weekly progress beats occasional long sessions.`);
+    } else if (prof.hours > profile.baselineHours) {
+      tips.push(`With ${prof.hours} h/week you can finish the plan in about ${totalWeeks} weeks. Keep at least one rest day each week.`);
+    }
+    if (prof.edu) tips.push(fillTrack(profile.education[prof.edu].tip, track));
+    if (prof.dept) {
+      tips.push(isRelatedDepartment(prof.dept)
+        ? `Your ${prof.dept} background already covers some foundations — spend most of your time on the core ${track.label} skills.`
+        : `Your ${prof.dept} background is an asset: build ${track.label} projects that solve problems from that field to make your portfolio stand out.`);
+    }
+    if (prof.style) tips.push(profile.learningStyles[prof.style].tip);
+
+    const goal = prof.gtype ? profile.goalTypes[prof.gtype] : null;
+    const checklist = goal
+      ? { title: `${goal.label} Checklist (alongside your plan)`, steps: goal.steps.map(s => fillTrack(s, track)) }
+      : null;
+    return { tips, checklist };
+  }
+
+  function renderTips() {
+    const { tips, checklist } = buildTips(currentAnalysis);
+    $("tipsList").replaceChildren(...tips.map(t => el("li", "", t)));
+    $("tipsList").hidden = tips.length === 0;
+
+    const box = $("goalChecklist");
+    box.replaceChildren();
+    if (checklist) {
+      const wrap = el("div", "checklist");
+      const ol = el("ol");
+      checklist.steps.forEach(s => ol.appendChild(el("li", "", s)));
+      wrap.append(el("strong", "", checklist.title), ol);
+      box.appendChild(wrap);
+    }
+    $("tipsBlock").hidden = tips.length === 0 && !checklist;
+  }
+
   /* ---------- Form helpers ---------- */
 
   function renderQuickSkills() {
@@ -139,9 +281,18 @@
   }
 
   const PRESETS = {
-    ai: { skills: "Python, C, C++", goal: "ai", level: "Beginner" },
-    web: { skills: "HTML/CSS, Git", goal: "web", level: "Beginner" },
-    data: { skills: "Python, SQL, Pandas, Excel", goal: "data", level: "Intermediate" }
+    ai: {
+      skills: "Python, C, C++", goal: "ai", level: "Beginner",
+      profile: { hours: 5, edu: "uni12", dept: "Computer Engineering", gtype: "internship", style: "handson" }
+    },
+    web: {
+      skills: "HTML/CSS, Git", goal: "web", level: "Beginner",
+      profile: { hours: 10, edu: "graduate", dept: "", gtype: "firstjob", style: "video" }
+    },
+    data: {
+      skills: "Python, SQL, Pandas, Excel", goal: "data", level: "Intermediate",
+      profile: { hours: 8, edu: "professional", dept: "Business Administration", gtype: "switch", style: "course" }
+    }
   };
 
   function loadPreset(name) {
@@ -150,6 +301,7 @@
     $("skillsInput").value = preset.skills;
     $("goalInput").value = tracks[preset.goal].label;
     $("levelSelect").value = preset.level;
+    writeProfile(preset.profile);
     startNewAnalysis();
   }
 
@@ -200,14 +352,26 @@
     if (btn) btn.focus();
   }
 
+  function sortedResources(skill, style) {
+    const list = (resources[skill] || []).slice();
+    if (!style) return list;
+    const order = profile.learningStyles[style].order;
+    const rank = r => { const i = order.indexOf(r.type); return i === -1 ? order.length : i; };
+    return list.sort((a, b) => rank(a) - rank(b)); // stable sort keeps original order on ties
+  }
+
   function resourceLinks(skill) {
-    const list = resources[skill] || [];
+    const style = currentAnalysis.prof.style;
+    const preferredType = style ? profile.learningStyles[style].order[0] : null;
     const wrap = el("div", "resource-links");
-    list.forEach(r => {
-      const a = el("a", "", `${r.label} ↗`);
+    sortedResources(skill, style).forEach(r => {
+      const isMatch = r.type === preferredType;
+      const a = el("a", isMatch ? "style-match" : "", `${r.label} ↗ `);
       a.href = r.url;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
+      if (isMatch) a.title = "Matches your learning style";
+      a.appendChild(el("span", "resource-type", profile.resourceTypeLabels[r.type] || ""));
       wrap.appendChild(a);
     });
     return wrap;
@@ -289,8 +453,9 @@
   }
 
   function renderStudyPlan() {
-    const { plan, level } = currentAnalysis;
-    $("planTitle").textContent = `12-Week Structured Study Plan (${level})`;
+    const { plan, level, totalWeeks, prof } = currentAnalysis;
+    $("planTitle").textContent = `${totalWeeks}-Week Structured Study Plan (${level}, ${prof.hours} h/week)`;
+    $("tab-plan").textContent = `${totalWeeks}-Week Study Plan`;
     const body = $("studyPlanBody");
     body.replaceChildren();
     plan.forEach((row, idx) => {
@@ -363,24 +528,32 @@
     $("goalInput").value = track.label;
     renderQuickSkills();
 
-    const plan = track.studyPlan[level] || track.studyPlan.Beginner;
-    currentAnalysis = { userSkills, level, trackId, track, plan };
+    const prof = readProfile();
+    const { plan, roadmap, totalWeeks } = personalizePlan(track, level, prof.hours);
+    currentAnalysis = { userSkills, level, trackId, track, plan, roadmap, totalWeeks, prof };
 
     // drop stale state that doesn't belong to this track/plan
     completedRecommended = new Set(Array.from(completedRecommended).filter(s => track.skills.includes(s)));
     weeksDone = new Set(Array.from(weeksDone).filter(i => Number.isInteger(i) && i >= 0 && i < plan.length));
 
-    $("metaChips").replaceChildren(
-      el("span", "chip", `Skills: ${userSkills.join(", ")}`),
-      el("span", "chip", `Career Goal: ${track.label}`),
-      el("span", "chip", `Experience: ${level}`)
-    );
+    const chips = [
+      `Skills: ${userSkills.join(", ")}`,
+      `Career Goal: ${track.label}`,
+      `Experience: ${level}`,
+      `Study Time: ${prof.hours} h/week`
+    ];
+    if (prof.edu) chips.push(`Education: ${profile.education[prof.edu].label}${prof.dept ? ` — ${prof.dept}` : ""}`);
+    else if (prof.dept) chips.push(`Field: ${prof.dept}`);
+    if (prof.gtype) chips.push(`Aiming for: ${profile.goalTypes[prof.gtype].label}`);
+    if (prof.style) chips.push(`Learns by: ${profile.learningStyles[prof.style].label}`);
+    $("metaChips").replaceChildren(...chips.map(c => el("span", "chip", c)));
 
     renderScoreAndSkills();
+    renderTips();
 
     // Roadmap
     $("roadmapTitle").textContent = `Recommended Action Roadmap (${level})`;
-    $("roadmapList").replaceChildren(...(track.roadmap[level] || track.roadmap.Beginner).map(step => {
+    $("roadmapList").replaceChildren(...roadmap.map(step => {
       const box = el("div", "step-box");
       box.append(el("strong", "", step.title), el("p", "", step.desc));
       return box;
@@ -446,6 +619,11 @@
     params.set("level", level);
     if (completedRecommended.size) params.set("done", Array.from(completedRecommended).join("|"));
     if (weeksDone.size) params.set("weeks", Array.from(weeksDone).sort((a, b) => a - b).join(","));
+    const prof = currentAnalysis.prof;
+    params.set("hours", String(prof.hours));
+    ["edu", "dept", "gtype", "style"].forEach(key => {
+      if (prof[key]) params.set(key, prof[key]);
+    });
     return params;
   }
 
@@ -469,6 +647,7 @@
     $("skillsInput").value = data.skills.split(",").join(", ");
     $("goalInput").value = tracks[trackId].label;
     $("levelSelect").value = data.level;
+    writeProfile(data);
     completedRecommended = new Set(data.done ? data.done.split("|") : []);
     weeksDone = new Set(data.weeks ? data.weeks.split(",").map(Number) : []);
     analyzeCareer();
@@ -498,6 +677,7 @@
     $("toolbar").hidden = true;
     $("emptyState").hidden = false;
     switchSubtab("overview");
+    $("tab-plan").textContent = "Study Plan";
     completedRecommended.clear();
     weeksDone.clear();
     currentAnalysis = null;
@@ -507,12 +687,20 @@
   }
 
   function buildReportText() {
-    const { userSkills, level, track, plan } = currentAnalysis;
+    const { userSkills, level, track, plan, roadmap, totalWeeks, prof } = currentAnalysis;
     const score = computeScore(currentAnalysis);
+    const { tips, checklist } = buildTips(currentAnalysis);
+    const profileLines = [`Study time: ${prof.hours} h/week (${totalWeeks}-week plan)`];
+    if (prof.edu) profileLines.push(`Education: ${profile.education[prof.edu].label}${prof.dept ? ` — ${prof.dept}` : ""}`);
+    else if (prof.dept) profileLines.push(`Field: ${prof.dept}`);
+    if (prof.gtype) profileLines.push(`Aiming for: ${profile.goalTypes[prof.gtype].label}`);
+    if (prof.style) profileLines.push(`Learns by: ${profile.learningStyles[prof.style].label}`);
+
     const lines = [
       `Career Goal: ${track.label}`,
       `Experience: ${level}`,
       `Skills: ${userSkills.join(", ")}`,
+      ...profileLines,
       `Readiness: ${score.finalScore}%`,
       `Study plan progress: ${weeksDone.size} / ${plan.length} periods`,
       "",
@@ -521,14 +709,18 @@
       "",
       "Priority Order:",
       ...(score.remaining.length
-        ? score.remaining.map((s, i) => `${i + 1}. ${s}${resources[s] ? ` — ${resources[s][0].url}` : ""}`)
+        ? score.remaining.map((s, i) => {
+            const first = sortedResources(s, prof.style)[0];
+            return `${i + 1}. ${s}${first ? ` — ${first.url}` : ""}`;
+          })
         : ["All core skills covered."]),
       "",
       `Roadmap (${level}):`,
-      ...(track.roadmap[level] || []).map(s => `- ${s.title}: ${s.desc}`),
-      "",
-      `Open this plan: ${location.href}`
+      ...roadmap.map(s => `- ${s.title}: ${s.desc}`)
     ];
+    if (tips.length) lines.push("", "Personalized Tips:", ...tips.map(t => `- ${t}`));
+    if (checklist) lines.push("", `${checklist.title}:`, ...checklist.steps.map((s, i) => `${i + 1}. ${s}`));
+    lines.push("", `Open this plan: ${location.href}`);
     return lines.join("\n");
   }
 
@@ -552,6 +744,13 @@
 
   function init() {
     const ids = Object.keys(tracks);
+    setupProfileFields();
+
+    // Profile changes update an existing analysis right away (progress is kept)
+    ["hoursSelect", "educationSelect", "goalTypeSelect", "styleSelect"].forEach(id =>
+      $(id).addEventListener("change", () => { if (currentAnalysis) analyzeCareer(); })
+    );
+    $("departmentInput").addEventListener("change", () => { if (currentAnalysis) analyzeCareer(); });
 
     $("goalSuggestions").replaceChildren(...ids.map(id => {
       const opt = document.createElement("option");

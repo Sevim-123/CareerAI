@@ -92,8 +92,8 @@ window.CareerData = {
       roadmap: {
         Beginner: [
           { title: "Phase 1 (Weeks 1–4): Web Core & Git", desc: "Build responsive pages with HTML/CSS and JavaScript fundamentals." },
-          { title: "Phase 2 (Weeks 5–8): React & APIs", desc: "Create interactive frontend components connected to APIs." },
-          { title: "Phase 3 (Weeks 9–12): Backend & SQL", desc: "Build a Node.js + SQL CRUD app and deploy it." }
+          { title: "Phase 2 (Weeks 5–7): React & APIs", desc: "Create interactive frontend components connected to APIs." },
+          { title: "Phase 3 (Weeks 8–12): Backend & SQL", desc: "Build a Node.js + SQL CRUD app and deploy it." }
         ],
         Intermediate: [
           { title: "Phase 1 (Weeks 1–4): TypeScript & Architecture", desc: "Add strict typing, modular folders, and state patterns." },
@@ -433,102 +433,229 @@ window.CareerData = {
   },
 
   // Free learning resources for each core skill.
+  // type: "video" | "reading" | "handson" | "course" — used to sort by the user's learning style.
   resources: {
     "Python": [
-      { label: "Official Python Tutorial", url: "https://docs.python.org/3/tutorial/" },
-      { label: "Kaggle Learn: Python", url: "https://www.kaggle.com/learn/python" }
+      { label: "Official Python Tutorial", url: "https://docs.python.org/3/tutorial/", type: "reading" },
+      { label: "Kaggle Learn: Python", url: "https://www.kaggle.com/learn/python", type: "handson" },
+      { label: "CS50's Introduction to Python", url: "https://cs50.harvard.edu/python/", type: "video" }
     ],
     "Git": [
-      { label: "Pro Git (free book)", url: "https://git-scm.com/book/en/v2" },
-      { label: "GitHub Skills", url: "https://skills.github.com/" }
+      { label: "Pro Git (free book)", url: "https://git-scm.com/book/en/v2", type: "reading" },
+      { label: "GitHub Skills", url: "https://skills.github.com/", type: "handson" }
     ],
     "Data Structures": [
-      { label: "VisuAlgo", url: "https://visualgo.net/en" },
-      { label: "NeetCode Roadmap", url: "https://neetcode.io/roadmap" }
+      { label: "VisuAlgo", url: "https://visualgo.net/en", type: "handson" },
+      { label: "NeetCode Roadmap", url: "https://neetcode.io/roadmap", type: "video" }
     ],
     "Math & Statistics": [
-      { label: "Khan Academy: Linear Algebra", url: "https://www.khanacademy.org/math/linear-algebra" },
-      { label: "Khan Academy: Statistics", url: "https://www.khanacademy.org/math/statistics-probability" }
+      { label: "Khan Academy: Linear Algebra", url: "https://www.khanacademy.org/math/linear-algebra", type: "course" },
+      { label: "Khan Academy: Statistics", url: "https://www.khanacademy.org/math/statistics-probability", type: "course" },
+      { label: "3Blue1Brown: Linear Algebra", url: "https://www.3blue1brown.com/topics/linear-algebra", type: "video" }
     ],
     "Machine Learning": [
-      { label: "Google ML Crash Course", url: "https://developers.google.com/machine-learning/crash-course" },
-      { label: "Kaggle Learn: Intro to ML", url: "https://www.kaggle.com/learn/intro-to-machine-learning" }
+      { label: "Google ML Crash Course", url: "https://developers.google.com/machine-learning/crash-course", type: "course" },
+      { label: "Kaggle Learn: Intro to ML", url: "https://www.kaggle.com/learn/intro-to-machine-learning", type: "handson" },
+      { label: "CS50's Intro to AI with Python", url: "https://cs50.harvard.edu/ai/", type: "video" }
     ],
     "Deep Learning": [
-      { label: "PyTorch Tutorials", url: "https://pytorch.org/tutorials/" },
-      { label: "fast.ai Course", url: "https://course.fast.ai/" }
+      { label: "PyTorch Tutorials", url: "https://pytorch.org/tutorials/", type: "handson" },
+      { label: "fast.ai Course", url: "https://course.fast.ai/", type: "video" }
     ],
     "HTML/CSS": [
-      { label: "MDN: Learn Web Development", url: "https://developer.mozilla.org/en-US/docs/Learn_web_development" },
-      { label: "web.dev: Learn CSS", url: "https://web.dev/learn/css" }
+      { label: "MDN: Learn Web Development", url: "https://developer.mozilla.org/en-US/docs/Learn_web_development", type: "reading" },
+      { label: "web.dev: Learn CSS", url: "https://web.dev/learn/css", type: "course" },
+      { label: "CS50's Web Programming", url: "https://cs50.harvard.edu/web/", type: "video" }
     ],
     "JavaScript": [
-      { label: "javascript.info", url: "https://javascript.info/" },
-      { label: "MDN JavaScript Guide", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" }
+      { label: "javascript.info", url: "https://javascript.info/", type: "reading" },
+      { label: "MDN JavaScript Guide", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", type: "reading" },
+      { label: "CS50's Web Programming", url: "https://cs50.harvard.edu/web/", type: "video" }
     ],
     "React": [
-      { label: "react.dev: Learn React", url: "https://react.dev/learn" }
+      { label: "react.dev: Learn React", url: "https://react.dev/learn", type: "handson" }
     ],
     "SQL": [
-      { label: "SQLBolt", url: "https://sqlbolt.com/" },
-      { label: "Kaggle Learn: Intro to SQL", url: "https://www.kaggle.com/learn/intro-to-sql" }
+      { label: "SQLBolt", url: "https://sqlbolt.com/", type: "handson" },
+      { label: "Kaggle Learn: Intro to SQL", url: "https://www.kaggle.com/learn/intro-to-sql", type: "handson" },
+      { label: "CS50's Introduction to Databases with SQL", url: "https://cs50.harvard.edu/sql/", type: "video" }
     ],
     "Node.js": [
-      { label: "Node.js Learn", url: "https://nodejs.org/en/learn" }
+      { label: "Node.js Learn", url: "https://nodejs.org/en/learn", type: "reading" }
     ],
     "Pandas & NumPy": [
-      { label: "Kaggle Learn: Pandas", url: "https://www.kaggle.com/learn/pandas" },
-      { label: "NumPy Quickstart", url: "https://numpy.org/doc/stable/user/quickstart.html" }
+      { label: "Kaggle Learn: Pandas", url: "https://www.kaggle.com/learn/pandas", type: "handson" },
+      { label: "NumPy Quickstart", url: "https://numpy.org/doc/stable/user/quickstart.html", type: "reading" }
     ],
     "Data Visualization": [
-      { label: "Kaggle Learn: Data Visualization", url: "https://www.kaggle.com/learn/data-visualization" },
-      { label: "Matplotlib Tutorials", url: "https://matplotlib.org/stable/tutorials/index.html" }
+      { label: "Kaggle Learn: Data Visualization", url: "https://www.kaggle.com/learn/data-visualization", type: "handson" },
+      { label: "Matplotlib Tutorials", url: "https://matplotlib.org/stable/tutorials/index.html", type: "reading" }
     ],
     "Dart": [
-      { label: "Dart Language Tour", url: "https://dart.dev/language" }
+      { label: "Dart Language Tour", url: "https://dart.dev/language", type: "reading" },
+      { label: "DartPad (online editor)", url: "https://dartpad.dev/", type: "handson" }
     ],
     "Flutter": [
-      { label: "Flutter: Get Started", url: "https://docs.flutter.dev/get-started" }
+      { label: "Flutter: Get Started", url: "https://docs.flutter.dev/get-started", type: "reading" },
+      { label: "Flutter Codelabs & Tutorials", url: "https://docs.flutter.dev/reference/learning-resources", type: "handson" }
     ],
     "State Management": [
-      { label: "Flutter: State Management", url: "https://docs.flutter.dev/data-and-backend/state-mgmt/intro" }
+      { label: "Flutter: State Management", url: "https://docs.flutter.dev/data-and-backend/state-mgmt/intro", type: "reading" }
     ],
     "REST APIs": [
-      { label: "MDN: HTTP Overview", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" },
-      { label: "Flutter: Fetch Data", url: "https://docs.flutter.dev/cookbook/networking/fetch-data" }
+      { label: "MDN: HTTP Overview", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview", type: "reading" },
+      { label: "Flutter: Fetch Data", url: "https://docs.flutter.dev/cookbook/networking/fetch-data", type: "handson" }
     ],
     "Firebase": [
-      { label: "Firebase for Flutter", url: "https://firebase.google.com/docs/flutter/setup" }
+      { label: "Firebase for Flutter", url: "https://firebase.google.com/docs/flutter/setup", type: "reading" }
     ],
     "Linux": [
-      { label: "Linux Journey", url: "https://linuxjourney.com/" },
-      { label: "OverTheWire: Bandit", url: "https://overthewire.org/wargames/bandit/" }
+      { label: "Linux Journey", url: "https://linuxjourney.com/", type: "course" },
+      { label: "OverTheWire: Bandit", url: "https://overthewire.org/wargames/bandit/", type: "handson" }
     ],
     "Networking": [
-      { label: "Cloudflare Learning Center", url: "https://www.cloudflare.com/learning/" }
+      { label: "Cloudflare Learning Center", url: "https://www.cloudflare.com/learning/", type: "reading" }
     ],
     "Bash Scripting": [
-      { label: "The Linux Command Line (free book)", url: "https://linuxcommand.org/tlcl.php" },
-      { label: "GNU Bash Manual", url: "https://www.gnu.org/software/bash/manual/bash.html" }
+      { label: "The Linux Command Line (free book)", url: "https://linuxcommand.org/tlcl.php", type: "reading" },
+      { label: "GNU Bash Manual", url: "https://www.gnu.org/software/bash/manual/bash.html", type: "reading" }
     ],
     "Web Security": [
-      { label: "PortSwigger Web Security Academy", url: "https://portswigger.net/web-security" },
-      { label: "OWASP Top 10", url: "https://owasp.org/www-project-top-ten/" }
+      { label: "PortSwigger Web Security Academy", url: "https://portswigger.net/web-security", type: "handson" },
+      { label: "OWASP Top 10", url: "https://owasp.org/www-project-top-ten/", type: "reading" },
+      { label: "CS50's Introduction to Cybersecurity", url: "https://cs50.harvard.edu/cybersecurity/", type: "video" }
     ],
     "Security Tools": [
-      { label: "TryHackMe", url: "https://tryhackme.com/" },
-      { label: "Nmap Book", url: "https://nmap.org/book/" }
+      { label: "TryHackMe", url: "https://tryhackme.com/", type: "handson" },
+      { label: "Nmap Book", url: "https://nmap.org/book/", type: "reading" }
     ],
     "Docker": [
-      { label: "Docker: Get Started", url: "https://docs.docker.com/get-started/" }
+      { label: "Docker: Get Started", url: "https://docs.docker.com/get-started/", type: "handson" }
     ],
     "CI/CD": [
-      { label: "GitHub Actions Docs", url: "https://docs.github.com/en/actions" }
+      { label: "GitHub Actions Docs", url: "https://docs.github.com/en/actions", type: "reading" },
+      { label: "GitHub Skills", url: "https://skills.github.com/", type: "handson" }
     ],
     "Cloud Platforms": [
-      { label: "AWS Skill Builder", url: "https://skillbuilder.aws/" },
-      { label: "Microsoft Learn: Azure", url: "https://learn.microsoft.com/en-us/training/azure/" },
-      { label: "Google Cloud Skills Boost", url: "https://www.cloudskillsboost.google/" }
+      { label: "AWS Skill Builder", url: "https://skillbuilder.aws/", type: "course" },
+      { label: "Microsoft Learn: Azure", url: "https://learn.microsoft.com/en-us/training/azure/", type: "course" },
+      { label: "Google Cloud Skills Boost", url: "https://www.cloudskillsboost.google/", type: "handson" }
     ]
+  },
+
+  // Options for the extra profile questions. "{track}" is replaced with the track name.
+  profile: {
+    baselineHours: 5,   // the study plans are written for 5 h/week (3h + 2h blocks)
+    baselineWeeks: 12,
+    hours: [3, 5, 8, 10, 15],
+
+    education: {
+      highschool: {
+        label: "High school",
+        tip: "You have time on your side: focus on fundamentals and finish one small project every month."
+      },
+      uni12: {
+        label: "University (1st–2nd year)",
+        tip: "Start your GitHub portfolio now, join a student club or team project, and try hackathons or competitions."
+      },
+      uni34: {
+        label: "University (3rd–4th year)",
+        tip: "Apply for internships 3–6 months ahead and try to align your graduation project with {track}."
+      },
+      graduate: {
+        label: "Recent graduate",
+        tip: "Target junior roles: 2–3 polished portfolio projects usually matter more than extra certificates."
+      },
+      professional: {
+        label: "Working professional",
+        tip: "Use your work experience: build {track} projects around problems from your current industry."
+      }
+    },
+
+    // Departments whose name contains one of these words count as a related background.
+    relatedDepartmentKeywords: [
+      "computer", "software", "information", "electrical", "electronic", "math", "statistic",
+      "physics", "data", "cyber", "mechatronic", "industrial", "informatics",
+      "bilgisayar", "yazilim", "bilisim", "elektrik", "elektronik", "matematik", "istatistik",
+      "fizik", "veri", "siber", "mekatronik", "endustri", "enformatik"
+    ],
+
+    goalTypes: {
+      internship: {
+        label: "Internship",
+        steps: [
+          "Prepare a one-page CV that highlights your {track} projects.",
+          "Polish 2 GitHub projects with clear READMEs and screenshots.",
+          "Apply 3–6 months before the internship season and track every application.",
+          "Practice common technical interview questions for {track}."
+        ]
+      },
+      firstjob: {
+        label: "First job",
+        steps: [
+          "Build 2–3 portfolio projects that mirror real {track} tasks.",
+          "Update your LinkedIn and GitHub profiles to match the role you want.",
+          "Practice technical and behavioral interviews every week.",
+          "Apply consistently — for example 5–10 targeted applications per week."
+        ]
+      },
+      switch: {
+        label: "Career change",
+        steps: [
+          "Map your past experience to {track} responsibilities in your CV.",
+          "Build at least one project that uses {track} skills in your previous field.",
+          "Join {track} communities, meetups and online events to grow your network.",
+          "Consider an entry-level certificate to make the switch visible."
+        ]
+      },
+      freelance: {
+        label: "Freelance",
+        steps: [
+          "Create a simple portfolio page that lists clear {track} services.",
+          "Start with small, well-defined projects to collect reviews.",
+          "Decide your pricing, timeline and contract template up front.",
+          "Keep reusable templates and snippets so you can deliver faster."
+        ]
+      },
+      academic: {
+        label: "Academic / research",
+        steps: [
+          "Read 1–2 recent {track} papers per week and write short summaries.",
+          "Reproduce a paper's results and publish your code.",
+          "Contact professors or labs working on {track} topics.",
+          "Aim for a thesis topic, poster or workshop paper."
+        ]
+      }
+    },
+
+    learningStyles: {
+      video: {
+        label: "Video lessons",
+        order: ["video", "course", "handson", "reading"],
+        tip: "Video resources are listed first. Pause and code along instead of only watching."
+      },
+      reading: {
+        label: "Reading docs & books",
+        order: ["reading", "course", "handson", "video"],
+        tip: "Official docs and books are listed first. Take short notes and rebuild each example yourself."
+      },
+      handson: {
+        label: "Hands-on practice",
+        order: ["handson", "course", "video", "reading"],
+        tip: "Interactive labs and exercises are listed first. Use your second weekly block for a mini project."
+      },
+      course: {
+        label: "Structured courses",
+        order: ["course", "video", "handson", "reading"],
+        tip: "Structured courses are listed first. Finish one course at a time and add certificates to your portfolio."
+      }
+    },
+
+    resourceTypeLabels: {
+      video: "video",
+      reading: "reading",
+      handson: "hands-on",
+      course: "course"
+    }
   }
 };

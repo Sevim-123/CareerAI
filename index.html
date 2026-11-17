@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Career Skill & Roadmap Analyzer</title>
-  <meta name="description" content="Enter your skills and career goal to get a readiness score, skill gap breakdown, free learning resources, and a 12-week study plan." />
+  <meta name="description" content="Enter your skills and career goal to get a readiness score, skill gap breakdown, free learning resources, and a personalized study plan." />
   <meta name="theme-color" content="#3b49df" />
 
   <meta property="og:type" content="website" />
@@ -22,7 +22,7 @@
     <header>
       <span class="badge-top">Smart Career Pathfinder</span>
       <h1>Career Skill & Roadmap Analyzer</h1>
-      <p>Enter your current skills and target role to get a transparent readiness score, skill gap breakdown, free learning resources, and a 12-week study plan.</p>
+      <p>Enter your current skills and target role to get a transparent readiness score, skill gap breakdown, free learning resources, and a study plan that fits your schedule.</p>
     </header>
 
     <main class="grid">
@@ -65,6 +65,38 @@
           <div class="error-msg" id="levelError" role="alert" hidden>Please select your experience level.</div>
         </div>
 
+        <fieldset class="about-you">
+          <legend>About You <span>(optional — personalizes your plan)</span></legend>
+
+          <div class="form-group">
+            <label for="hoursSelect">4. Weekly Study Time</label>
+            <select id="hoursSelect" aria-describedby="hoursHint"></select>
+            <div class="field-hint" id="hoursHint">The study plan length and weekly routine adapt to this.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="educationSelect">5. Education</label>
+            <select id="educationSelect">
+              <option value="">Prefer not to say</option>
+            </select>
+            <input type="text" id="departmentInput" class="field-gap" placeholder="Department / field of study (e.g. Computer Engineering)" autocomplete="off" aria-label="Department or field of study" maxlength="60" />
+          </div>
+
+          <div class="form-group">
+            <label for="goalTypeSelect">6. What Are You Aiming For?</label>
+            <select id="goalTypeSelect">
+              <option value="">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="styleSelect">7. How Do You Like to Learn?</label>
+            <select id="styleSelect">
+              <option value="">No preference</option>
+            </select>
+          </div>
+        </fieldset>
+
         <div class="btn-row">
           <button type="submit" class="btn-primary">Analyze My Career</button>
           <button type="button" class="btn-secondary" id="resetBtn">Reset</button>
@@ -106,7 +138,7 @@
 
           <div class="subtabs" role="tablist" aria-label="Analysis sections">
             <button type="button" class="subtab-btn active" role="tab" id="tab-overview" data-tab="overview" aria-selected="true" aria-controls="subpanel-overview">Skills & Roadmap</button>
-            <button type="button" class="subtab-btn" role="tab" id="tab-plan" data-tab="plan" aria-selected="false" aria-controls="subpanel-plan" tabindex="-1">12-Week Study Plan</button>
+            <button type="button" class="subtab-btn" role="tab" id="tab-plan" data-tab="plan" aria-selected="false" aria-controls="subpanel-plan" tabindex="-1">Study Plan</button>
           </div>
 
           <div class="subpanel active" id="subpanel-overview" role="tabpanel" aria-labelledby="tab-overview">
@@ -115,6 +147,12 @@
 
             <div class="section-title">Priority Order & Free Resources</div>
             <div class="priority-box" id="priorityList"></div>
+
+            <div class="tips-block" id="tipsBlock" hidden>
+              <div class="section-title">Personalized Tips</div>
+              <ul class="tips-list" id="tipsList"></ul>
+              <div id="goalChecklist"></div>
+            </div>
 
             <div class="section-title" id="roadmapTitle">Recommended Action Roadmap</div>
             <div class="roadmap" id="roadmapList"></div>

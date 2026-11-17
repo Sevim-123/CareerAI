@@ -676,3 +676,85 @@ tr.row-done td:not(.done-col) {
     print-color-adjust: exact;
   }
 }
+
+/* ---------- About You fieldset ---------- */
+.about-you {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px 2px;
+  margin-top: 4px;
+}
+
+.about-you legend {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e293b;
+  padding: 0 6px;
+}
+
+.about-you legend span {
+  font-weight: 500;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.field-gap {
+  margin-top: 8px;
+}
+
+/* ---------- Personalized tips ---------- */
+.tips-block {
+  margin-top: 4px;
+}
+
+.tips-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.86rem;
+  color: #14532d;
+  line-height: 1.45;
+}
+
+.tips-list li::before {
+  content: "→ ";
+  font-weight: 700;
+}
+
+.checklist {
+  margin-top: 10px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.checklist strong {
+  display: block;
+  font-size: 0.86rem;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.checklist ol {
+  padding-left: 20px;
+  font-size: 0.85rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.resource-type {
+  font-weight: 500;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.resource-links a.style-match {
+  background: var(--chip-bg);
+  border-radius: 6px;
+  padding: 1px 6px;
+}
