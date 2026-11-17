@@ -72,69 +72,73 @@
       <option value="Advanced">Advanced</option>
     </select>
 
-    <button type="button" onclick="runAnalysis()">Analyze My Career</button>
+    <button type="button" onclick="updateResult()">Analyze My Career</button>
   </div>
 
-  <div class="box" id="result">
+  <div class="box">
     <h2>Your Career Analysis</h2>
-    <p><strong>Skills:</strong> <span id="outSkills"></span></p>
-    <p><strong>Career Goal:</strong> <span id="outGoal"></span></p>
-    <p><strong>Experience:</strong> <span id="outLevel"></span></p>
-    <p><strong>Career Recommendation:</strong> <span id="outRec"></span></p>
+    <p><strong>Skills:</strong> <span id="resSkills">Python ,c</span></p>
+    <p><strong>Career Goal:</strong> <span id="resGoal">Artificial intelligence</span></p>
+    <p><strong>Experience:</strong> <span id="resLevel">Beginner</span></p>
+    <p><strong>Career Recommendation:</strong> <span id="resRec"></span></p>
     <p><strong>Recommended Skills:</strong></p>
-    <ul id="outList"></ul>
+    <ul id="resList"></ul>
   </div>
 
   <script>
-    const plans = {
-      "artificial intelligence": {
-        rec: "Focus on Python, math basics, and machine learning step by step.",
-        skills: ["Python", "Math & Statistics", "Machine Learning", "Data Structures", "Deep Learning"]
-      },
-      "web": {
-        rec: "Start with HTML, CSS, and JavaScript, then build small projects.",
-        skills: ["HTML", "CSS", "JavaScript", "Git", "APIs"]
-      },
-      "data": {
-        rec: "Practice data cleaning, SQL queries, and basic charts.",
-        skills: ["Python", "SQL", "Pandas", "Statistics", "Data Visualization"]
+    function updateResult() {
+      var skillsInput = document.getElementById("skills");
+      var goalInput = document.getElementById("goal");
+      var levelInput = document.getElementById("level");
+
+      var skillsText = skillsInput ? skillsInput.value : "Python ,c";
+      var goalText = goalInput ? goalInput.value : "Artificial intelligence";
+      var levelText = levelInput ? levelInput.value : "Beginner";
+
+      var resSkills = document.getElementById("resSkills");
+      var resGoal = document.getElementById("resGoal");
+      var resLevel = document.getElementById("resLevel");
+
+      if (resSkills) resSkills.textContent = skillsText;
+      if (resGoal) resGoal.textContent = goalText;
+      if (resLevel) resLevel.textContent = levelText;
+
+      var goalLower = goalText.toLowerCase();
+      var recText = "Focus on programming, mathematics and machine learning.";
+      var skillList = ["Python Programming", "Machine Learning", "Mathematics and Statistics", "Data Structures and Algorithms", "Deep Learning"];
+
+      if (goalLower.indexOf("web") !== -1) {
+        recText = "Focus on HTML, CSS, JavaScript and building web projects.";
+        skillList = ["HTML & CSS", "JavaScript", "React", "APIs", "Git"];
+      } else if (goalLower.indexOf("data") !== -1) {
+        recText = "Focus on SQL, Python data libraries and data visualization.";
+        skillList = ["Python", "SQL", "Pandas", "Statistics", "Data Visualization"];
       }
-    };
 
-    function runAnalysis() {
-      const rawSkills = document.getElementById("skills").value;
-      const goal = document.getElementById("goal").value.trim();
-      const level = document.getElementById("level").value;
+      var resRec = document.getElementById("resRec");
+      if (resRec) resRec.textContent = recText;
 
-      const userSkillList = rawSkills
-        .split(",")
-        .map(s => s.trim().toLowerCase())
-        .filter(Boolean);
-
-      const goalLower = goal.toLowerCase();
-      let matchedPlan = plans["artificial intelligence"];
-
-      if (goalLower.includes("web")) matchedPlan = plans["web"];
-      if (goalLower.includes("data")) matchedPlan = plans["data"];
-
-      document.getElementById("outSkills").textContent = rawSkills;
-      document.getElementById("outGoal").textContent = goal;
-      document.getElementById("outLevel").textContent = level;
-      document.getElementById("outRec").textContent =
-        `${goal || "Target role"} (${level}): ${matchedPlan.rec}`;
-
-      const list = document.getElementById("outList");
-      list.innerHTML = "";
-
-      matchedPlan.skills.forEach(skill => {
-        const li = document.createElement("li");
-        const hasIt = userSkillList.includes(skill.toLowerCase());
-        li.textContent = hasIt ? `${skill} (Already have)` : skill;
-        list.appendChild(li);
-      });
+      var userSkills = skillsText.toLowerCase().split(",");
+      var ul = document.getElementById("resList");
+      if (ul) {
+        ul.innerHTML = "";
+        for (var i = 0; i < skillList.length; i++) {
+          var item = skillList[i];
+          var li = document.createElement("li");
+          var matched = false;
+          for (var j = 0; j < userSkills.length; j++) {
+            var u = userSkills[j].replace(/^\s+|\s+$/g, "");
+            if (u && item.toLowerCase().indexOf(u) !== -1) {
+              matched = true;
+            }
+          }
+          li.textContent = matched ? item + " (You have this)" : item;
+          ul.appendChild(li);
+        }
+      }
     }
 
-    runAnalysis();
+    updateResult();
   </script>
 </body>
 </html>
