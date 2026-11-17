@@ -1,360 +1,140 @@
-<! html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerAI</title>
-
-    
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f5fb;
-    color: #202b45;
-}
-
-header {
-    background: #111a32;
-    color: white;
-    padding: 24px 20px;
-    text-align: center;
-}
-
-header h2 {
-    font-size: 27px;
-    margin: 0 0 8px;
-    letter-spacing: 1px;
-}
-
-header p {
-    color: #b9c4df;
-    margin: 0;
-}
-
-main {
-    max-width: 850px;
-    margin: 45px auto;
-    padding: 20px;
-}
-
-.hero, .form-box, .result-box {
-    background: white;
-    padding: 35px;
-    border-radius: 18px;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 30px rgba(25, 40, 80, 0.07);
-}
-
-.hero {
-    text-align: center;
-    padding: 55px 30px;
-    background: linear-gradient(135deg, #182544, #4546a5);
-    color: white;
-}
-
-.hero h1 {
-    font-size: 34px;
-    margin-bottom: 15px;
-}
-
-.hero p {
-    color: #e0e5ff;
-    font-size: 16px;
-}
-
-h1, h2, h3 {
-    text-align: center;
-}
-
-.form-box h2, .result-box h2 {
-    color: #252f52;
-    margin-bottom: 28px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-top: 20px;
-    color: #35415f;
-}
-
-input, textarea, select {
-    width: 100%;
-    padding: 14px;
-    margin: 9px 0 12px;
-    border: 1px solid #dce1ed;
-    border-radius: 10px;
-    font-size: 16px;
-    background: #fafbff;
-    color: #202b45;
-}
-
-textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: #6259d9;
-    box-shadow: 0 0 0 3px rgba(98, 89, 217, 0.12);
-}
-
-button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 18px;
-    background: linear-gradient(135deg, #5555d9, #7549c8);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(85, 85, 217, 0.25);
-}
-
-#career-form, #ai-result {
-    display: none;
-}
-
-.result-box {
-    border-top: 5px solid #6259d9;
-}
-
-.result-box li {
-    padding: 10px;
-    margin: 8px 0;
-    background: #f2f3ff;
-    border-radius: 8px;
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    color: #777;
-}
-
-@media (max-width: 600px) {
-    main {
-        margin: 20px auto;
-        padding: 14px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      padding: 20px;
+      color: #1e293b;
     }
-
-    .hero, .form-box, .result-box {
-        padding: 23px;
+    .box {
+      max-width: 480px;
+      margin: 0 auto 20px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
-
-    .hero h1 {
-        font-size: 27px;
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
     }
-}
-</style>
-
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #4f5d95;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+    p {
+      line-height: 1.5;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-    <h2>CareerAI</h2>
-    <p>Your AI-Powered Career Guide</p>
-</header>
+  <div class="box">
+    <label for="skills">Your Skills</label>
+    <input type="text" id="skills" value="Python ,c" />
 
-<main>
+    <label for="goal">Career Goal</label>
+    <input type="text" id="goal" value="Artificial intelligence" />
 
-    <section class="hero">
-        <h1>Build Your Future With AI</h1>
-        <p>
-            Discover your career path, identify your strengths
-            and find the skills you need to succeed.
-        </p>
-        <button onclick="showForm()">Get Started</button>
-    </section>
+    <label for="level">Experience Level</label>
+    <select id="level">
+      <option value="Beginner" selected>Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
 
-    <section id="career-form" class="form-box">
+    <button type="button" onclick="runAnalysis()">Analyze My Career</button>
+  </div>
 
-        <h2>Career Assessment</h2>
+  <div class="box" id="result">
+    <h2>Your Career Analysis</h2>
+    <p><strong>Skills:</strong> <span id="outSkills"></span></p>
+    <p><strong>Career Goal:</strong> <span id="outGoal"></span></p>
+    <p><strong>Experience:</strong> <span id="outLevel"></span></p>
+    <p><strong>Career Recommendation:</strong> <span id="outRec"></span></p>
+    <p><strong>Recommended Skills:</strong></p>
+    <ul id="outList"></ul>
+  </div>
 
-        <form onsubmit="analyzeCareer(event)">
+  <script>
+    const plans = {
+      "artificial intelligence": {
+        rec: "Focus on Python, math basics, and machine learning step by step.",
+        skills: ["Python", "Math & Statistics", "Machine Learning", "Data Structures", "Deep Learning"]
+      },
+      "web": {
+        rec: "Start with HTML, CSS, and JavaScript, then build small projects.",
+        skills: ["HTML", "CSS", "JavaScript", "Git", "APIs"]
+      },
+      "data": {
+        rec: "Practice data cleaning, SQL queries, and basic charts.",
+        skills: ["Python", "SQL", "Pandas", "Statistics", "Data Visualization"]
+      }
+    };
 
-            <label>Education Level</label>
-            <input
-                type="text"
-                id="education"
-                placeholder="e.g. University Student"
-                required
-            >
+    function runAnalysis() {
+      const rawSkills = document.getElementById("skills").value;
+      const goal = document.getElementById("goal").value.trim();
+      const level = document.getElementById("level").value;
 
-            <label>Your Skills</label>
-            <textarea
-                id="skills"
-                placeholder="e.g. Python, C Programming, Mathematics"
-                required
-            ></textarea>
+      const userSkillList = rawSkills
+        .split(",")
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
 
-            <label>Career Goal</label>
-            <input
-                type="text"
-                id="goal"
-                placeholder="e.g. Artificial Intelligence Engineer"
-                required
-            >
+      const goalLower = goal.toLowerCase();
+      let matchedPlan = plans["artificial intelligence"];
 
-            <label>Experience Level</label>
-            <select id="experience" required>
-                <option value="">Select your experience</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-            </select>
+      if (goalLower.includes("web")) matchedPlan = plans["web"];
+      if (goalLower.includes("data")) matchedPlan = plans["data"];
 
-            <button type="submit">Analyze My Career</button>
+      document.getElementById("outSkills").textContent = rawSkills;
+      document.getElementById("outGoal").textContent = goal;
+      document.getElementById("outLevel").textContent = level;
+      document.getElementById("outRec").textContent =
+        `${goal || "Target role"} (${level}): ${matchedPlan.rec}`;
 
-        </form>
-    </section>
+      const list = document.getElementById("outList");
+      list.innerHTML = "";
 
-    <section id="ai-result" class="result-box">
-
-        <h2>Your Career Analysis</h2>
-
-        <div id="result"></div>
-
-        <h3>Career Recommendation</h3>
-        <p id="career-suggestion"></p>
-
-        <h3>Recommended Skills</h3>
-        <ul id="skill-suggestions"></ul>
-
-    </section>
-
-</main>
-
-<footer>
-    <p>CareerAI © 2026 | Build Your Future</p>
-</footer>
-
-<script>
-
-function showForm() {
-
-    document.getElementById("career-form").style.display = "block";
-
-    document.getElementById("career-form").scrollIntoView({
-        behavior: "smooth"
-    });
-
-}
-
-function analyzeCareer(event) {
-
-    event.preventDefault();
-
-    const education = document.getElementById("education").value;
-    const skills = document.getElementById("skills").value;
-    const goal = document.getElementById("goal").value;
-    const experience = document.getElementById("experience").value;
-
-    document.getElementById("result").innerHTML =
-        "<p><b>Education:</b> " + education + "</p>" +
-        "<p><b>Skills:</b> " + skills + "</p>" +
-        "<p><b>Career Goal:</b> " + goal + "</p>" +
-        "<p><b>Experience:</b> " + experience + "</p>";
-
-    const normalizedGoal = goal.toLowerCase();
-
-    let recommendations;
-    let suggestion;
-
-    if (
-        normalizedGoal.includes("artificial intelligence") ||
-        normalizedGoal.includes("ai engineer")
-    ) {
-
-        suggestion = "Artificial Intelligence Engineering is your target career. Focus on programming, mathematics and machine learning.";
-
-        recommendations = [
-            "Python Programming",
-            "Machine Learning",
-            "Mathematics and Statistics",
-            "Data Structures and Algorithms",
-            "Deep Learning"
-        ];
-
+      matchedPlan.skills.forEach(skill => {
+        const li = document.createElement("li");
+        const hasIt = userSkillList.includes(skill.toLowerCase());
+        li.textContent = hasIt ? `${skill} (Already have)` : skill;
+        list.appendChild(li);
+      });
     }
 
-    else if (
-        normalizedGoal.includes("web developer")
-    ) {
-
-        suggestion = "Web Development is your target career. Focus on building interactive and responsive websites.";
-
-        recommendations = [
-            "HTML",
-            "CSS",
-            "JavaScript",
-            "React",
-            "Responsive Web Design"
-        ];
-
-    }
-
-    else if (
-        normalizedGoal.includes("data scientist")
-    ) {
-
-        suggestion = "Data Science is your target career. Focus on data analysis, statistics and programming.";
-
-        recommendations = [
-            "Python",
-            "SQL",
-            "Statistics",
-            "Data Analysis",
-            "Machine Learning"
-        ];
-
-    }
-
-    else {
-
-        suggestion = "Explore your interests, strengthen your technical skills and gain experience through practical projects.";
-
-        recommendations = [
-            "Programming Fundamentals",
-            "Problem Solving",
-            "Communication",
-            "Teamwork",
-            "Practical Projects"
-        ];
-
-    }
-
-    document.getElementById("career-suggestion").textContent = suggestion;
-
-    document.getElementById("skill-suggestions").innerHTML =
-        recommendations.map(function(skill) {
-            return "<li>" + skill + "</li>";
-        }).join("");
-
-    document.getElementById("ai-result").style.display = "block";
-
-    document.getElementById("ai-result").scrollIntoView({
-        behavior: "smooth"
-    });
-
-}
-
-</script>
-
+    runAnalysis();
+  </script>
 </body>
 </html>
-
