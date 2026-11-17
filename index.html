@@ -4,603 +4,146 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Career Skill & Roadmap Analyzer</title>
-  <style>
-    :root {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --primary: #3b49df;
-      --primary-hover: #2f3bc4;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --success-bg: #dcfce7;
-      --success-text: #166534;
-      --warn-bg: #fef3c7;
-      --warn-text: #92400e;
-      --priority-bg: #e0e7ff;
-      --priority-text: #1e3a8a;
-      --error-bg: #fee2e2;
-      --error-text: #991b1b;
-      --chip-bg: #eef2ff;
-      --chip-text: #3730a3;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
-      color: var(--text-main);
-      min-height: 100vh;
-      padding: 26px 16px;
-    }
-
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .badge-top {
-      display: inline-block;
-      background: var(--chip-bg);
-      color: var(--primary);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 5px 12px;
-      border-radius: 999px;
-      margin-bottom: 8px;
-    }
-
-    header h1 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 0.92fr 1.38fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
-      border: 1px solid var(--border);
-    }
-
-    .card h2 {
-      font-size: 1.18rem;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #334155;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 10px 13px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.94rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      background: #fff;
-      color: var(--text-main);
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59, 73, 223, 0.15);
-    }
-
-    .error-msg {
-      display: none;
-      background: var(--error-bg);
-      color: var(--error-text);
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-top: 6px;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .pill-btn {
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      color: #334155;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .pill-btn:hover {
-      background: var(--chip-bg);
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .demo-bar {
-      background: #f8fafc;
-      border: 1px dashed #cbd5e1;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 16px;
-    }
-
-    .demo-bar span {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .btn-primary {
-      flex: 1;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-    }
-
-    .btn-secondary {
-      background: #f1f5f9;
-      color: #334155;
-      border: 1px solid var(--border);
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-secondary:hover {
-      background: #e2e8f0;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 42px 16px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .result-content {
-      display: none;
-      animation: fadeIn 0.25s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .meta-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .chip {
-      background: var(--chip-bg);
-      color: var(--chip-text);
-      padding: 5px 11px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .notice-banner {
-      display: none;
-      background: var(--warn-bg);
-      color: var(--warn-text);
-      border-radius: 10px;
-      padding: 9px 12px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-    }
-
-    .score-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 16px;
-    }
-
-    .score-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 10px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #3b49df, #10b981);
-      border-radius: 999px;
-      transition: width 0.4s ease;
-    }
-
-    .formula-note {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .subtabs {
-      display: flex;
-      gap: 8px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-      margin-bottom: 14px;
-    }
-
-    .subtab-btn {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      color: #475569;
-      padding: 7px 13px;
-      border-radius: 8px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .subtab-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-
-    .subpanel {
-      display: none;
-    }
-
-    .subpanel.active {
-      display: block;
-    }
-
-    .section-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin: 14px 0 8px;
-    }
-
-    .section-title:first-child {
-      margin-top: 0;
-    }
-
-    .skill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .skill-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      border: 1px solid transparent;
-    }
-
-    .skill-tag.have {
-      background: var(--success-bg);
-      color: var(--success-text);
-    }
-
-    .skill-tag.missing {
-      background: var(--warn-bg);
-      color: var(--warn-text);
-      cursor: pointer;
-    }
-
-    .skill-tag.missing:hover {
-      border-color: #d97706;
-    }
-
-    .skill-tag.completed {
-      background: #dbeafe;
-      color: #1e40af;
-      cursor: pointer;
-    }
-
-    .priority-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-    }
-
-    .priority-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.86rem;
-    }
-
-    .priority-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .priority-badge {
-      background: var(--priority-bg);
-      color: var(--priority-text);
-      font-weight: 700;
-      font-size: 0.74rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .roadmap {
-      display: grid;
-      gap: 10px;
-    }
-
-    .step-box {
-      border-left: 3.5px solid var(--primary);
-      background: #f8fafc;
-      padding: 10px 14px;
-      border-radius: 0 10px 10px 0;
-    }
-
-    .step-box strong {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--primary);
-      margin-bottom: 3px;
-    }
-
-    .step-box p {
-      font-size: 0.86rem;
-      color: #334155;
-      line-height: 1.4;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.83rem;
-      background: #fff;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 9px 11px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-
-    th {
-      background: #f8fafc;
-      color: #1e293b;
-      font-weight: 700;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .copy-btn {
-      font-size: 0.8rem;
-      padding: 5px 10px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      cursor: pointer;
-      color: #334155;
-    }
-
-    .copy-btn:hover {
-      background: #e2e8f0;
-    }
-  </style>
+  <meta name="description" content="Enter your skills and career goal to get a readiness score, skill gap breakdown, free learning resources, and a 12-week study plan." />
+  <meta name="theme-color" content="#3b49df" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Career Skill & Roadmap Analyzer" />
+  <meta property="og:description" content="Readiness score, skill gaps, free resources, and a 12-week study plan for 6 tech careers." />
+  <meta property="og:url" content="https://sevim-123.github.io/CareerAI/" />
+  <meta property="og:image" content="https://sevim-123.github.io/CareerAI/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <header>
       <span class="badge-top">Smart Career Pathfinder</span>
       <h1>Career Skill & Roadmap Analyzer</h1>
-      <p>Enter your current skills and target role to get a transparent readiness score, skill gap breakdown, and 12-week study plan.</p>
+      <p>Enter your current skills and target role to get a transparent readiness score, skill gap breakdown, free learning resources, and a 12-week study plan.</p>
     </header>
 
-    <div class="grid">
-      <form class="card" id="careerForm" onsubmit="handleSubmit(event)">
-        <h2>
-          <span>Your Profile</span>
-          <button type="button" class="copy-btn" onclick="askFormStepByStep()">Step-by-Step</button>
-        </h2>
+    <main class="grid">
+      <form class="card" id="careerForm" novalidate>
+        <h2><span>Your Profile</span></h2>
 
         <div class="demo-bar">
-          <span>Quick Jury Demo Presets</span>
+          <span>Try an Example Profile</span>
           <div class="pill-row" style="margin-top:0;">
-            <button type="button" class="pill-btn" onclick="loadPreset('ai')">Demo: Beginner AI (Python, C, C++)</button>
-            <button type="button" class="pill-btn" onclick="loadPreset('web')">Demo: Beginner Web Dev</button>
+            <button type="button" class="pill-btn" data-preset="ai">Beginner AI (Python, C, C++)</button>
+            <button type="button" class="pill-btn" data-preset="web">Beginner Web Dev</button>
+            <button type="button" class="pill-btn" data-preset="data">Intermediate Data Science</button>
           </div>
         </div>
 
         <div class="form-group">
           <label for="skillsInput">1. Your Skills</label>
-          <input type="text" id="skillsInput" placeholder="e.g. Python, C, C++" autocomplete="off" />
-          <div class="error-msg" id="skillsError">Please enter at least one skill (e.g. Python, C, C++).</div>
-          <div class="pill-row">
-            <button type="button" class="pill-btn" onclick="addSkill('Python')">+ Python</button>
-            <button type="button" class="pill-btn" onclick="addSkill('C')">+ C</button>
-            <button type="button" class="pill-btn" onclick="addSkill('C++')">+ C++</button>
-            <button type="button" class="pill-btn" onclick="addSkill('JavaScript')">+ JavaScript</button>
-            <button type="button" class="pill-btn" onclick="addSkill('HTML/CSS')">+ HTML/CSS</button>
-            <button type="button" class="pill-btn" onclick="addSkill('SQL')">+ SQL</button>
-            <button type="button" class="pill-btn" onclick="addSkill('Git')">+ Git</button>
-          </div>
+          <input type="text" id="skillsInput" placeholder="e.g. Python, C, C++" autocomplete="off" aria-describedby="skillsHint skillsError" />
+          <div class="field-hint" id="skillsHint">Separate skills with commas. Common spellings (JS, Node, ML, PyTorch, AWS…) are recognized.</div>
+          <div class="error-msg" id="skillsError" role="alert" hidden>Please enter at least one skill (e.g. Python, C, C++).</div>
+          <div class="pill-row" id="quickSkills" aria-label="Quick add skills"></div>
         </div>
 
         <div class="form-group">
           <label for="goalInput">2. Career Goal</label>
-          <input type="text" id="goalInput" list="goalSuggestions" placeholder="e.g. Artificial intelligence" autocomplete="off" />
-          <div class="error-msg" id="goalError">Please enter a career goal.</div>
-          <datalist id="goalSuggestions">
-            <option value="Artificial intelligence"></option>
-            <option value="Web Development"></option>
-          </datalist>
+          <input type="text" id="goalInput" list="goalSuggestions" placeholder="e.g. Data Science" autocomplete="off" aria-describedby="goalError" />
+          <div class="error-msg" id="goalError" role="alert" hidden>Please enter a career goal.</div>
+          <datalist id="goalSuggestions"></datalist>
+          <div class="pill-row goal-pills" id="goalPills" aria-label="Available career tracks"></div>
         </div>
 
         <div class="form-group">
           <label for="levelSelect">3. Experience Level</label>
-          <select id="levelSelect">
+          <select id="levelSelect" aria-describedby="levelError">
             <option value="" selected disabled>Select experience level...</option>
             <option value="Beginner">Beginner</option>
             <option value="Intermediate">Intermediate</option>
             <option value="Advanced">Advanced</option>
           </select>
-          <div class="error-msg" id="levelError">Please select your experience level.</div>
+          <div class="error-msg" id="levelError" role="alert" hidden>Please select your experience level.</div>
         </div>
 
         <div class="btn-row">
           <button type="submit" class="btn-primary">Analyze My Career</button>
-          <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
+          <button type="button" class="btn-secondary" id="resetBtn">Reset</button>
         </div>
       </form>
 
-      <div class="card" id="resultCard">
+      <section class="card" id="resultCard" aria-live="polite">
         <h2>
           <span>Your Career Analysis</span>
-          <button type="button" class="copy-btn" onclick="copyReport()" id="copyBtn" style="display:none;">Copy Summary</button>
+          <span class="toolbar" id="toolbar" hidden>
+            <button type="button" class="copy-btn" id="copyBtn">Copy Summary</button>
+            <button type="button" class="copy-btn" id="shareBtn">Copy Share Link</button>
+            <button type="button" class="copy-btn" id="pdfBtn">Save as PDF</button>
+          </span>
         </h2>
 
         <div class="empty-state" id="emptyState">
-          Fill out <strong>Your Profile</strong> on the left or click a <strong>Quick Jury Demo Preset</strong> to generate your skill gap analysis and study plan.
+          Fill out <strong>Your Profile</strong> on the left or pick an <strong>Example Profile</strong> to generate your skill gap analysis and study plan.
         </div>
 
-        <div class="result-content" id="resultContent">
+        <div class="unsupported-box" id="unsupportedBox" hidden>
+          <div id="unsupportedText"></div>
+          <div class="pill-row" id="unsupportedOptions"></div>
+        </div>
+
+        <div class="result-content" id="resultContent" hidden>
           <div class="meta-chips" id="metaChips"></div>
-          <div class="notice-banner" id="fallbackNotice"></div>
 
           <div class="score-box">
             <div class="score-header">
               <span>Goal Readiness Score</span>
               <span id="scoreText">0%</span>
             </div>
-            <div class="progress-track">
+            <div class="progress-track" role="progressbar" aria-label="Goal readiness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="scoreTrack">
               <div class="progress-fill" id="scoreBar" style="width: 0%;"></div>
             </div>
             <div class="formula-note" id="formulaNote"></div>
           </div>
 
-          <div class="subtabs">
-            <button type="button" class="subtab-btn active" onclick="switchSubtab('overview', this)">Skills & Roadmap</button>
-            <button type="button" class="subtab-btn" onclick="switchSubtab('plan', this)">12-Week Study Plan</button>
+          <div class="subtabs" role="tablist" aria-label="Analysis sections">
+            <button type="button" class="subtab-btn active" role="tab" id="tab-overview" data-tab="overview" aria-selected="true" aria-controls="subpanel-overview">Skills & Roadmap</button>
+            <button type="button" class="subtab-btn" role="tab" id="tab-plan" data-tab="plan" aria-selected="false" aria-controls="subpanel-plan" tabindex="-1">12-Week Study Plan</button>
           </div>
 
-          <div class="subpanel active" id="subpanel-overview">
-            <div class="section-title">Skill Gap Breakdown (Click recommended skills to mark completed)</div>
+          <div class="subpanel active" id="subpanel-overview" role="tabpanel" aria-labelledby="tab-overview">
+            <div class="section-title">Skill Gap Breakdown (click a recommended skill to mark it completed)</div>
             <div class="skill-list" id="skillList"></div>
 
-            <div class="section-title">Priority Order (Where to Start)</div>
+            <div class="section-title">Priority Order & Free Resources</div>
             <div class="priority-box" id="priorityList"></div>
 
-            <div class="section-title">Recommended Action Roadmap</div>
+            <div class="section-title" id="roadmapTitle">Recommended Action Roadmap</div>
             <div class="roadmap" id="roadmapList"></div>
+            <div class="full-roadmap" id="fullRoadmap"></div>
           </div>
 
-          <div class="subpanel" id="subpanel-plan">
-            <div class="section-title">12-Week Structured Study Plan</div>
+          <div class="subpanel" id="subpanel-plan" role="tabpanel" aria-labelledby="tab-plan">
+            <div class="section-title" id="planTitle">12-Week Structured Study Plan</div>
+
+            <div class="plan-progress">
+              <div class="score-header">
+                <span>Study Plan Progress</span>
+                <span id="planProgressText">0 / 6 periods</span>
+              </div>
+              <div class="progress-track" role="progressbar" aria-label="Study plan progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="planTrack">
+                <div class="progress-fill" id="planBar" style="width: 0%;"></div>
+              </div>
+              <div class="formula-note">Tick a period when you finish it — your progress is saved in this browser and in the share link.</div>
+            </div>
+
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>Period</th>
-                    <th>Focus Area</th>
-                    <th>Weekly Routine</th>
-                    <th>Target Output</th>
+                    <th scope="col" class="done-col">Done</th>
+                    <th scope="col">Period</th>
+                    <th scope="col">Focus Area</th>
+                    <th scope="col">Weekly Routine</th>
+                    <th scope="col">Target Output</th>
                   </tr>
                 </thead>
                 <tbody id="studyPlanBody"></tbody>
@@ -608,415 +151,18 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Scores are rule-based and transparent — see the formula under each result.
+      <a href="https://github.com/Sevim-123/CareerAI" target="_blank" rel="noopener">Source on GitHub</a>
+    </footer>
   </div>
 
-  <script>
-    const STORAGE_KEY = "career_analyzer_state_v1";
-    let completedRecommended = new Set();
-    let currentAnalysis = null;
+  <div class="toast" id="toast" role="status" hidden></div>
 
-    const careerDatabase = {
-      "artificial intelligence": {
-        label: "Artificial intelligence",
-        skills: ["Python", "Git", "Data Structures", "Math & Statistics", "Machine Learning", "Deep Learning"],
-        foundationalSkills: ["C", "C++"],
-        skillNotes: {
-          "Git": "Version control, branches, and clean GitHub commits.",
-          "Data Structures": "Lists, dicts, sets, Big-O complexity, and C/C++ memory/structure comparison.",
-          "Math & Statistics": "Linear algebra (vectors/matrices), probability, mean/variance, gradients.",
-          "Machine Learning": "NumPy, Pandas, Scikit-Learn, train/test split, classification/regression.",
-          "Deep Learning": "Neural network basics and PyTorch tensor/model training."
-        },
-        roadmap: {
-          Beginner: [
-            { title: "Phase 1 (Weeks 1–3): Workflow & Foundations", desc: "Set up Git/GitHub and reinforce Python data structures alongside C/C++ fundamentals." },
-            { title: "Phase 2 (Weeks 4–8): Math & Classical ML", desc: "Cover linear algebra & statistics, then practice NumPy, Pandas, and Scikit-Learn." },
-            { title: "Phase 3 (Weeks 9–12): Evaluation & Deep Learning", desc: "Master model validation, build 1 end-to-end ML project, and start PyTorch basics." }
-          ],
-          Intermediate: [
-            { title: "Phase 1 (Weeks 1–4): Deep Architectures", desc: "Work with CNNs, sequence/transformer models, and experiment tracking." },
-            { title: "Phase 2 (Weeks 5–8): Deployment & APIs", desc: "Serve models via FastAPI/Docker and optimize inference speed." },
-            { title: "Phase 3 (Weeks 9–12): Applied Capstone", desc: "Ship a reproducible AI project with benchmarks and documentation." }
-          ],
-          Advanced: [
-            { title: "Phase 1 (Weeks 1–4): System & Model Optimization", desc: "Focus on quantization, profiling, and scalable data pipelines." },
-            { title: "Phase 2 (Weeks 5–8): MLOps & Reliability", desc: "Automate testing, CI/CD, and drift/error monitoring." },
-            { title: "Phase 3 (Weeks 9–12): Research & Leadership", desc: "Publish technical write-ups, open-source tools, or benchmark studies." }
-          ]
-        },
-        studyPlan: [
-          { period: "Week 1", focus: "Git & GitHub", routine: "3h init/add/commit/branch/push; 2h organize Python & C/C++ code", output: "Clean ai-foundations GitHub repo" },
-          { period: "Weeks 2–3", focus: "Data Structures", routine: "3h Python data structures & Big-O; 2h C/C++ structure comparison", output: "15–20 solved core problems" },
-          { period: "Weeks 4–6", focus: "Math & Statistics", routine: "3h matrices, derivatives, probability; 2h NumPy numeric practice", output: "NumPy math & stats notebook" },
-          { period: "Weeks 7–8", focus: "Data & First ML", routine: "3h Pandas cleaning/EDA; 2h Scikit-Learn baseline models", output: "First classification model" },
-          { period: "Weeks 9–10", focus: "Model Evaluation", routine: "3h train/test, cross-validation, overfitting; 2h tuning", output: "End-to-end ML mini project" },
-          { period: "Weeks 11–12", focus: "Deep Learning Intro", routine: "3h neural net intuition & PyTorch; 2h small model training", output: "PyTorch baseline + README" }
-        ]
-      },
-      "web development": {
-        label: "Web Development",
-        skills: ["HTML/CSS", "JavaScript", "Git", "React", "SQL", "Node.js"],
-        foundationalSkills: ["Python", "C", "C++"],
-        skillNotes: {
-          "HTML/CSS": "Semantic structure, Flexbox/Grid, responsive layouts.",
-          "JavaScript": "ES6+, async/await, DOM manipulation, fetch API.",
-          "Git": "Branching, pull requests, and portfolio hosting.",
-          "React": "Components, props/state, hooks, reusable UI.",
-          "SQL": "Relational modeling, joins, indexing, queries.",
-          "Node.js": "REST APIs, middleware, authentication basics."
-        },
-        roadmap: {
-          Beginner: [
-            { title: "Phase 1 (Weeks 1–4): Web Core & Git", desc: "Build responsive pages with HTML/CSS and JavaScript fundamentals." },
-            { title: "Phase 2 (Weeks 5–8): React & APIs", desc: "Create interactive frontend components connected to APIs." },
-            { title: "Phase 3 (Weeks 9–12): Backend & SQL", desc: "Build a Node.js + SQL CRUD app and deploy it." }
-          ],
-          Intermediate: [
-            { title: "Phase 1 (Weeks 1–4): TypeScript & Architecture", desc: "Add strict typing, modular folders, and state patterns." },
-            { title: "Phase 2 (Weeks 5–8): Auth & Database Tuning", desc: "Implement auth flows, caching, and clean SQL queries." },
-            { title: "Phase 3 (Weeks 9–12): Testing & Deployment", desc: "Add automated tests and CI/CD pipelines." }
-          ],
-          Advanced: [
-            { title: "Phase 1 (Weeks 1–4): Performance", desc: "Optimize bundle size, rendering, and Core Web Vitals." },
-            { title: "Phase 2 (Weeks 5–8): Scalability", desc: "Design service boundaries, queues, and observability." },
-            { title: "Phase 3 (Weeks 9–12): System Design", desc: "Lead architecture reviews and production rollouts." }
-          ]
-        },
-        studyPlan: [
-          { period: "Weeks 1–2", focus: "HTML, CSS & Git", routine: "3h responsive layouts; 2h Git workflow & deployment", output: "Responsive landing page" },
-          { period: "Weeks 3–4", focus: "JavaScript Core", routine: "3h JS fundamentals & async; 2h interactive DOM apps", output: "Interactive JS utility app" },
-          { period: "Weeks 5–7", focus: "React", routine: "3h components/hooks; 2h API consumption", output: "Multi-view React frontend" },
-          { period: "Weeks 8–9", focus: "SQL", routine: "3h schema & queries; 2h practice datasets", output: "Normalized DB schema" },
-          { period: "Weeks 10–11", focus: "Node.js API", routine: "3h REST endpoints; 2h connecting React + SQL", output: "Full-stack CRUD app" },
-          { period: "Week 12", focus: "Polish & Portfolio", routine: "3h bug fixes & docs; 2h live deployment", output: "Hosted full-stack portfolio" }
-        ]
-      }
-    };
-
-    function parseSkills(raw) {
-      return raw.split(",").map(s => s.trim()).filter(Boolean);
-    }
-
-    function normalizeSkill(skill) {
-      const s = skill.trim().toLowerCase();
-      if (s === "c++") return "C++";
-      if (s === "c") return "C";
-      if (s === "python") return "Python";
-      if (s === "js" || s === "javascript") return "JavaScript";
-      if (s === "html" || s === "css" || s === "html/css") return "HTML/CSS";
-      if (s === "sql") return "SQL";
-      if (s === "git") return "Git";
-      return skill.trim();
-    }
-
-    function addSkill(skillName) {
-      const input = document.getElementById("skillsInput");
-      const current = parseSkills(input.value).map(normalizeSkill);
-      const normalized = normalizeSkill(skillName);
-      if (!current.some(s => s.toLowerCase() === normalized.toLowerCase())) {
-        current.push(normalized);
-        input.value = current.join(", ");
-        document.getElementById("skillsError").style.display = "none";
-      }
-    }
-
-    function loadPreset(type) {
-      if (type === "ai") {
-        document.getElementById("skillsInput").value = "Python, C, C++";
-        document.getElementById("goalInput").value = "Artificial intelligence";
-        document.getElementById("levelSelect").value = "Beginner";
-      } else {
-        document.getElementById("skillsInput").value = "HTML/CSS, Git";
-        document.getElementById("goalInput").value = "Web Development";
-        document.getElementById("levelSelect").value = "Beginner";
-      }
-      completedRecommended.clear();
-      analyzeCareer();
-    }
-
-    function askFormStepByStep() {
-      const skills = prompt("1/3 Your Skills (comma separated, e.g. Python, C, C++):");
-      if (skills === null) return;
-      document.getElementById("skillsInput").value = skills.trim();
-
-      const goal = prompt("2/3 Career Goal (e.g. Artificial intelligence):");
-      if (goal === null) return;
-      document.getElementById("goalInput").value = goal.trim();
-
-      const levelInput = prompt("3/3 Experience Level (Beginner, Intermediate, or Advanced):");
-      if (levelInput === null) return;
-      const normalized = levelInput.trim().toLowerCase();
-      const levelSelect = document.getElementById("levelSelect");
-      if (normalized.startsWith("beg")) levelSelect.value = "Beginner";
-      else if (normalized.startsWith("int")) levelSelect.value = "Intermediate";
-      else if (normalized.startsWith("adv")) levelSelect.value = "Advanced";
-
-      completedRecommended.clear();
-      analyzeCareer();
-    }
-
-    function handleSubmit(event) {
-      event.preventDefault();
-      completedRecommended.clear();
-      analyzeCareer();
-    }
-
-    function isSkillMatch(userSkill, reqSkill) {
-      const u = userSkill.trim().toLowerCase();
-      const r = reqSkill.trim().toLowerCase();
-      if (!u || !r) return false;
-      if (u === r) return true;
-      if (u === "c" || u === "c++") return false;
-      const tokens = r.split(/[\s/&+-]+/).filter(Boolean);
-      return tokens.includes(u);
-    }
-
-    function toggleRecommended(skillName) {
-      if (completedRecommended.has(skillName)) {
-        completedRecommended.delete(skillName);
-      } else {
-        completedRecommended.add(skillName);
-      }
-      renderScoreAndSkills();
-      saveState();
-    }
-
-    function renderScoreAndSkills() {
-      if (!currentAnalysis) return;
-      const { userSkills, goalRaw, matchedTrack } = currentAnalysis;
-
-      const skillList = document.getElementById("skillList");
-      skillList.innerHTML = "";
-
-      let matchedCore = 0;
-      const missingSkills = [];
-
-      matchedTrack.skills.forEach(reqSkill => {
-        const hasIt = userSkills.some(u => isSkillMatch(u, reqSkill));
-        const isDone = hasIt || completedRecommended.has(reqSkill);
-        if (hasIt) matchedCore++;
-        if (!hasIt) missingSkills.push(reqSkill);
-
-        const tag = document.createElement("span");
-        if (hasIt) {
-          tag.className = "skill-tag have";
-          tag.textContent = `✓ ${reqSkill} (Have)`;
-        } else if (isDone) {
-          tag.className = "skill-tag completed";
-          tag.textContent = `✓ ${reqSkill} (Completed)`;
-          tag.onclick = () => toggleRecommended(reqSkill);
-        } else {
-          tag.className = "skill-tag missing";
-          tag.textContent = `+ ${reqSkill} (Recommended)`;
-          tag.onclick = () => toggleRecommended(reqSkill);
-        }
-        skillList.appendChild(tag);
-      });
-
-      userSkills.forEach(uSkill => {
-        const inCore = matchedTrack.skills.some(r => isSkillMatch(uSkill, r));
-        if (!inCore) {
-          const isFoundation = matchedTrack.foundationalSkills.some(
-            f => f.toLowerCase() === uSkill.toLowerCase()
-          );
-          const tag = document.createElement("span");
-          tag.className = "skill-tag have";
-          tag.textContent = isFoundation
-            ? `✓ ${uSkill} (Foundational Programming)`
-            : `✓ ${uSkill} (Additional Skill)`;
-          skillList.appendChild(tag);
-        }
-      });
-
-      const effectiveMatched = Math.min(
-        matchedTrack.skills.length,
-        matchedCore + completedRecommended.size
-      );
-      const coreRatio = Math.round((effectiveMatched / matchedTrack.skills.length) * 85);
-      const foundationCount = userSkills.filter(u =>
-        matchedTrack.foundationalSkills.some(f => f.toLowerCase() === u.toLowerCase())
-      ).length;
-      const foundationBonus = Math.min(15, foundationCount * 7);
-      const finalScore = Math.min(100, coreRatio + foundationBonus);
-
-      document.getElementById("scoreText").textContent = `${finalScore}%`;
-      document.getElementById("scoreBar").style.width = `${finalScore}%`;
-      document.getElementById("formulaNote").textContent =
-        `Formula: (${effectiveMatched}/${matchedTrack.skills.length} core skills → ${coreRatio}%) + (${foundationCount} foundational C/C++ skill(s) → +${foundationBonus}%)`;
-
-      const priorityList = document.getElementById("priorityList");
-      priorityList.innerHTML = "";
-      if (missingSkills.length === 0) {
-        priorityList.innerHTML = `<div class="priority-item"><span>All core skills covered! Focus on building and deploying end-to-end projects.</span><span class="priority-badge">Ready</span></div>`;
-      } else {
-        missingSkills.forEach((skill, idx) => {
-          const note = matchedTrack.skillNotes[skill] || `Core requirement for ${goalRaw}.`;
-          const item = document.createElement("div");
-          item.className = "priority-item";
-          item.innerHTML = `
-            <div>
-              <strong>${skill}</strong>
-              <div style="color:#64748b;font-size:0.81rem;margin-top:2px;">${note}</div>
-            </div>
-            <span class="priority-badge">${idx === 0 ? "Priority #1 • Start Here" : `Priority #${idx + 1}`}</span>
-          `;
-          priorityList.appendChild(item);
-        });
-      }
-    }
-
-    function analyzeCareer() {
-      const rawSkills = document.getElementById("skillsInput").value;
-      const userSkills = parseSkills(rawSkills).map(normalizeSkill);
-      const goalRaw = document.getElementById("goalInput").value.trim();
-      const level = document.getElementById("levelSelect").value;
-
-      const skillsError = document.getElementById("skillsError");
-      const goalError = document.getElementById("goalError");
-      const levelError = document.getElementById("levelError");
-
-      skillsError.style.display = "none";
-      goalError.style.display = "none";
-      levelError.style.display = "none";
-
-      let hasError = false;
-      if (userSkills.length === 0) {
-        skillsError.style.display = "block";
-        if (!hasError) document.getElementById("skillsInput").focus();
-        hasError = true;
-      }
-      if (!goalRaw) {
-        goalError.style.display = "block";
-        if (!hasError) document.getElementById("goalInput").focus();
-        hasError = true;
-      }
-      if (!level) {
-        levelError.style.display = "block";
-        if (!hasError) document.getElementById("levelSelect").focus();
-        hasError = true;
-      }
-      if (hasError) return;
-
-      document.getElementById("skillsInput").value = userSkills.join(", ");
-
-      const key = goalRaw.toLowerCase();
-      const isFallback = !careerDatabase[key];
-      const matchedTrack = careerDatabase[key] || careerDatabase["artificial intelligence"];
-
-      currentAnalysis = { userSkills, goalRaw, level, matchedTrack, isFallback };
-
-      document.getElementById("metaChips").innerHTML = `
-        <span class="chip">Skills: ${userSkills.join(", ")}</span>
-        <span class="chip">Career Goal: ${goalRaw}</span>
-        <span class="chip">Experience: ${level}</span>
-      `;
-
-      const notice = document.getElementById("fallbackNotice");
-      if (isFallback) {
-        notice.style.display = "block";
-        notice.textContent = `Note: "${goalRaw}" is not in the built-in catalog yet, so the Artificial Intelligence track was used as a baseline.`;
-      } else {
-        notice.style.display = "none";
-      }
-
-      renderScoreAndSkills();
-
-      const roadmapList = document.getElementById("roadmapList");
-      roadmapList.innerHTML = "";
-      const steps = matchedTrack.roadmap[level] || matchedTrack.roadmap.Beginner;
-      steps.forEach(step => {
-        const div = document.createElement("div");
-        div.className = "step-box";
-        div.innerHTML = `<strong>${step.title}</strong><p>${step.desc}</p>`;
-        roadmapList.appendChild(div);
-      });
-
-      const studyPlanBody = document.getElementById("studyPlanBody");
-      studyPlanBody.innerHTML = "";
-      matchedTrack.studyPlan.forEach(row => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td><strong>${row.period}</strong></td>
-          <td>${row.focus}</td>
-          <td>${row.routine}</td>
-          <td>${row.output}</td>
-        `;
-        studyPlanBody.appendChild(tr);
-      });
-
-      document.getElementById("emptyState").style.display = "none";
-      document.getElementById("copyBtn").style.display = "inline-block";
-      document.getElementById("resultContent").style.display = "block";
-
-      saveState();
-    }
-
-    function switchSubtab(name, btn) {
-      document.querySelectorAll(".subtab-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".subpanel").forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(`subpanel-${name}`).classList.add("active");
-    }
-
-    function resetForm() {
-      document.getElementById("skillsInput").value = "";
-      document.getElementById("goalInput").value = "";
-      document.getElementById("levelSelect").value = "";
-      document.getElementById("skillsError").style.display = "none";
-      document.getElementById("goalError").style.display = "none";
-      document.getElementById("levelError").style.display = "none";
-      document.getElementById("resultContent").style.display = "none";
-      document.getElementById("copyBtn").style.display = "none";
-      document.getElementById("emptyState").style.display = "block";
-      completedRecommended.clear();
-      currentAnalysis = null;
-      localStorage.removeItem(STORAGE_KEY);
-    }
-
-    function copyReport() {
-      if (!currentAnalysis) return;
-      const { userSkills, goalRaw, level } = currentAnalysis;
-      const score = document.getElementById("scoreText").textContent;
-      const skillItems = Array.from(document.querySelectorAll("#skillList .skill-tag"))
-        .map(el => "- " + el.textContent)
-        .join("\n");
-
-      const text = `Skills: ${userSkills.join(", ")}\nCareer Goal: ${goalRaw}\nExperience: ${level}\nReadiness: ${score}\n\nSkills Breakdown:\n${skillItems}`;
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById("copyBtn");
-        btn.textContent = "Copied!";
-        setTimeout(() => (btn.textContent = "Copy Summary"), 1500);
-      });
-    }
-
-    function saveState() {
-      if (!currentAnalysis) return;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        skills: document.getElementById("skillsInput").value,
-        goal: document.getElementById("goalInput").value,
-        level: document.getElementById("levelSelect").value,
-        completed: Array.from(completedRecommended)
-      }));
-    }
-
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const data = JSON.parse(raw);
-        if (data.skills && data.goal && data.level) {
-          document.getElementById("skillsInput").value = data.skills;
-          document.getElementById("goalInput").value = data.goal;
-          document.getElementById("levelSelect").value = data.level;
-          completedRecommended = new Set(data.completed || []);
-          analyzeCareer();
-        }
-      } catch (_) {}
-    }
-
-    window.addEventListener("DOMContentLoaded", loadState);
-  </script>
+  <script src="careers.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
