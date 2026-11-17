@@ -17,6 +17,8 @@
       --success-text: #166534;
       --warn-bg: #fef3c7;
       --warn-text: #92400e;
+      --priority-bg: #e0e7ff;
+      --priority-text: #1e3a8a;
       --error-bg: #fee2e2;
       --error-text: #991b1b;
       --chip-bg: #eef2ff;
@@ -38,7 +40,7 @@
     }
 
     .container {
-      max-width: 1040px;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
@@ -71,12 +73,12 @@
 
     .grid {
       display: grid;
-      grid-template-columns: 1fr 1.25fr;
+      grid-template-columns: 0.95fr 1.35fr;
       gap: 22px;
       align-items: start;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 880px) {
       .grid {
         grid-template-columns: 1fr;
       }
@@ -96,6 +98,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
     }
 
     .form-group {
@@ -118,6 +121,7 @@
       font-size: 0.95rem;
       transition: border-color 0.2s, box-shadow 0.2s;
       background: #fff;
+      color: var(--text-main);
     }
 
     input:focus, select:focus {
@@ -184,10 +188,6 @@
       background: var(--primary-hover);
     }
 
-    .btn-primary:active {
-      transform: scale(0.99);
-    }
-
     .btn-secondary {
       background: #f1f5f9;
       color: #334155;
@@ -206,13 +206,13 @@
     /* Result Styling */
     .empty-state {
       text-align: center;
-      padding: 36px 16px;
+      padding: 40px 16px;
       color: var(--text-muted);
     }
 
     .empty-state p {
       font-size: 0.95rem;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .result-content {
@@ -273,10 +273,10 @@
     }
 
     .section-title {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #1e293b;
-      margin: 16px 0 10px;
+      margin: 18px 0 10px;
     }
 
     .skill-list {
@@ -291,7 +291,7 @@
       gap: 6px;
       padding: 6px 12px;
       border-radius: 999px;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 600;
     }
 
@@ -303,6 +303,45 @@
     .skill-tag.missing {
       background: var(--warn-bg);
       color: var(--warn-text);
+    }
+
+    .skill-tag.top-priority {
+      background: var(--priority-bg);
+      color: var(--priority-text);
+      border: 1px solid #93c5fd;
+    }
+
+    .priority-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .priority-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.87rem;
+    }
+
+    .priority-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .priority-badge {
+      background: var(--priority-bg);
+      color: var(--priority-text);
+      font-weight: 700;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
     }
 
     .roadmap {
@@ -320,7 +359,7 @@
 
     .step-box strong {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       color: var(--primary);
       margin-bottom: 3px;
     }
@@ -329,6 +368,37 @@
       font-size: 0.88rem;
       color: #334155;
       line-height: 1.4;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      background: #fff;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 9px 11px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     .copy-btn {
@@ -351,18 +421,21 @@
     <header>
       <span class="badge-top">Smart Career Pathfinder</span>
       <h1>Career Skill & Roadmap Analyzer</h1>
-      <p>Enter your current skills and target role to get a structured skill gap analysis and step-by-step roadmap.</p>
+      <p>Enter your current skills and target role to get a prioritized skill gap analysis and a 12-week study plan.</p>
     </header>
 
     <div class="grid">
       <!-- Left Card: Form -->
       <form class="card" id="careerForm" onsubmit="handleSubmit(event)">
-        <h2>Your Profile</h2>
+        <h2>
+          <span>Your Profile</span>
+          <button type="button" class="copy-btn" onclick="askFormStepByStep()">Ask Step-by-Step</button>
+        </h2>
 
         <div class="form-group">
-          <label for="skillsInput">Your Skills</label>
-          <input type="text" id="skillsInput" placeholder="e.g. Python, C" />
-          <div class="error-msg" id="skillsError">Please enter at least one skill (e.g. Python, C).</div>
+          <label for="skillsInput">1. Your Skills</label>
+          <input type="text" id="skillsInput" placeholder="e.g. Python, C, C++" autocomplete="off" />
+          <div class="error-msg" id="skillsError">Please enter your skills first (e.g. Python, C, C++).</div>
           <div class="quick-skills">
             <button type="button" class="quick-btn" onclick="addSkill('Python')">+ Python</button>
             <button type="button" class="quick-btn" onclick="addSkill('C')">+ C</button>
@@ -375,24 +448,26 @@
         </div>
 
         <div class="form-group">
-          <label for="goalInput">Career Goal</label>
-          <input type="text" id="goalInput" list="goalSuggestions" placeholder="e.g. Artificial intelligence" />
+          <label for="goalInput">2. Career Goal</label>
+          <input type="text" id="goalInput" list="goalSuggestions" placeholder="e.g. Artificial intelligence" autocomplete="off" />
+          <div class="error-msg" id="goalError">Please enter your career goal.</div>
           <datalist id="goalSuggestions">
             <option value="Artificial intelligence"></option>
             <option value="Web Development"></option>
             <option value="Data Science"></option>
             <option value="Embedded Systems & IoT"></option>
-            <option value="Cybersecurity"></option>
           </datalist>
         </div>
 
         <div class="form-group">
-          <label for="levelSelect">Experience Level</label>
+          <label for="levelSelect">3. Experience Level</label>
           <select id="levelSelect">
-            <option value="Beginner" selected>Beginner</option>
+            <option value="" selected disabled>Select experience level...</option>
+            <option value="Beginner">Beginner</option>
             <option value="Intermediate">Intermediate</option>
             <option value="Advanced">Advanced</option>
           </select>
+          <div class="error-msg" id="levelError">Please select your experience level.</div>
         </div>
 
         <div class="btn-row">
@@ -409,7 +484,7 @@
         </h2>
 
         <div class="empty-state" id="emptyState">
-          <p>Fill out <strong>Your Skills</strong>, <strong>Career Goal</strong>, and <strong>Experience Level</strong> on the left, then click <strong>Analyze My Career</strong>.</p>
+          <p>Answer the prompts or fill out <strong>Your Skills</strong>, <strong>Career Goal</strong>, and <strong>Experience Level</strong> on the left, then click <strong>Analyze My Career</strong>.</p>
         </div>
 
         <div class="result-content" id="resultContent">
@@ -428,8 +503,26 @@
           <div class="section-title">Skill Gap Breakdown</div>
           <div class="skill-list" id="skillList"></div>
 
+          <div class="section-title">Priority Order (Where to Start)</div>
+          <div class="priority-box" id="priorityList"></div>
+
           <div class="section-title">Recommended Action Roadmap</div>
           <div class="roadmap" id="roadmapList"></div>
+
+          <div class="section-title">12-Week Study Plan</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th>Focus Area</th>
+                  <th>Weekly Routine (5–6 hrs)</th>
+                  <th>Target Output</th>
+                </tr>
+              </thead>
+              <tbody id="studyPlanBody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -438,72 +531,80 @@
   <script>
     const careerDatabase = {
       "artificial intelligence": {
-        skills: ["Python", "Math & Statistics", "Data Structures", "Machine Learning", "Deep Learning", "Git"],
+        skills: ["Python", "Git", "Data Structures", "Math & Statistics", "Machine Learning", "Deep Learning"],
+        skillNotes: {
+          "Git": "Version control, branches, and clean GitHub commits.",
+          "Data Structures": "Lists, dicts, sets, Big-O complexity, and C/C++ structure comparison.",
+          "Math & Statistics": "Linear algebra (vectors/matrices), probability, mean/variance, gradients.",
+          "Machine Learning": "NumPy, Pandas, Scikit-Learn, train/test split, classification/regression.",
+          "Deep Learning": "Neural network basics and PyTorch tensor/model training."
+        },
         roadmap: {
           Beginner: [
-            { title: "Phase 1: Core Foundations", desc: "Strengthen Python fundamentals, linear algebra, probability, and basic data structures." },
-            { title: "Phase 2: Classical ML", desc: "Learn NumPy, Pandas, and Scikit-Learn to build regression and classification models." },
-            { title: "Phase 3: Neural Networks & Projects", desc: "Explore PyTorch or TensorFlow and publish 2 end-to-end AI projects on GitHub." }
+            { title: "Phase 1 (Weeks 1–3): Workflow & Foundations", desc: "Set up Git/GitHub, reinforce Python data structures alongside C/C++ concepts." },
+            { title: "Phase 2 (Weeks 4–8): Math & Classical ML", desc: "Cover linear algebra & statistics, then practice NumPy, Pandas, and Scikit-Learn." },
+            { title: "Phase 3 (Weeks 9–12): Evaluation & Deep Learning", desc: "Master model validation, build 1 end-to-end ML project, and start PyTorch basics." }
           ],
           Intermediate: [
-            { title: "Phase 1: Deep Learning Specialization", desc: "Master CNNs, Transformers, and model optimization techniques." },
-            { title: "Phase 2: Model Deployment", desc: "Wrap models in FastAPI/Docker and deploy interactive demos." },
-            { title: "Phase 3: Research & Evaluation", desc: "Read recent papers, fine-tune open-source models, and track experiments." }
+            { title: "Phase 1 (Weeks 1–4): Deep Architectures", desc: "Work with CNNs, sequence/transformer models, and experiment tracking." },
+            { title: "Phase 2 (Weeks 5–8): Deployment & APIs", desc: "Serve models via FastAPI/Docker and optimize inference speed." },
+            { title: "Phase 3 (Weeks 9–12): Applied Capstone", desc: "Ship a reproducible AI project with benchmarks and documentation." }
           ],
           Advanced: [
-            { title: "Phase 1: Scalable AI Systems", desc: "Focus on distributed training, quantization, and inference optimization." },
-            { title: "Phase 2: MLOps & Monitoring", desc: "Automate CI/CD pipelines, drift detection, and production model evaluation." },
-            { title: "Phase 3: Domain Leadership", desc: "Contribute to open-source AI frameworks or publish benchmarked research." }
+            { title: "Phase 1 (Weeks 1–4): System & Model Optimization", desc: "Focus on quantization, profiling, and scalable data pipelines." },
+            { title: "Phase 2 (Weeks 5–8): MLOps & Reliability", desc: "Automate testing, CI/CD, and drift/error monitoring." },
+            { title: "Phase 3 (Weeks 9–12): Research & Leadership", desc: "Publish technical write-ups, open-source tools, or benchmark studies." }
           ]
-        }
+        },
+        studyPlan: [
+          { period: "Week 1", focus: "Git & GitHub", routine: "3h init/add/commit/branch/push; 2h organize Python & C/C++ code", output: "Clean ai-foundations GitHub repo" },
+          { period: "Weeks 2–3", focus: "Data Structures", routine: "3h Python data structures & Big-O; 2h C/C++ structure comparison", output: "15–20 solved core problems" },
+          { period: "Weeks 4–6", focus: "Math & Statistics", routine: "3h matrices, derivatives, probability; 2h NumPy numeric practice", output: "NumPy math & stats notebook" },
+          { period: "Weeks 7–8", focus: "Data & First ML", routine: "3h Pandas cleaning/EDA; 2h Scikit-Learn baseline models", output: "First classification model" },
+          { period: "Weeks 9–10", focus: "Model Evaluation", routine: "3h train/test, cross-validation, overfitting; 2h tuning", output: "End-to-end ML mini project" },
+          { period: "Weeks 11–12", focus: "Deep Learning Intro", routine: "3h neural net intuition & PyTorch; 2h small model training", output: "PyTorch baseline + README" }
+        ]
       },
       "web development": {
-        skills: ["HTML/CSS", "JavaScript", "Git", "React", "Node.js", "SQL"],
+        skills: ["HTML/CSS", "JavaScript", "Git", "React", "SQL", "Node.js"],
+        skillNotes: {
+          "HTML/CSS": "Semantic structure, Flexbox/Grid, responsive layouts.",
+          "JavaScript": "ES6+, async/await, DOM manipulation, fetch API.",
+          "Git": "Branching, pull requests, and portfolio hosting.",
+          "React": "Components, props/state, hooks, reusable UI.",
+          "SQL": "Relational modeling, joins, indexing, queries.",
+          "Node.js": "REST APIs, middleware, authentication basics."
+        },
         roadmap: {
           Beginner: [
-            { title: "Phase 1: Web Core", desc: "Build responsive layouts with semantic HTML, modern CSS, and vanilla JavaScript." },
-            { title: "Phase 2: Frontend Framework", desc: "Learn component-based UI development using React and REST API integration." },
-            { title: "Phase 3: Full-Stack Basics", desc: "Connect a Node.js backend with a relational database and deploy your portfolio." }
+            { title: "Phase 1 (Weeks 1–4): Web Core & Git", desc: "Build responsive pages with HTML/CSS and JavaScript fundamentals." },
+            { title: "Phase 2 (Weeks 5–8): React & APIs", desc: "Create interactive frontend components connected to APIs." },
+            { title: "Phase 3 (Weeks 9–12): Backend & SQL", desc: "Build a Node.js + SQL CRUD app and deploy it." }
           ],
           Intermediate: [
-            { title: "Phase 1: TypeScript & Architecture", desc: "Adopt TypeScript, state management, and clean modular folder structures." },
-            { title: "Phase 2: Authentication & Databases", desc: "Implement JWT/OAuth security, caching, and optimized SQL queries." },
-            { title: "Phase 3: Testing & CI/CD", desc: "Write automated unit/integration tests and configure GitHub Actions." }
+            { title: "Phase 1 (Weeks 1–4): TypeScript & Architecture", desc: "Add strict typing, modular folders, and state patterns." },
+            { title: "Phase 2 (Weeks 5–8): Auth & Database Tuning", desc: "Implement auth flows, caching, and clean SQL queries." },
+            { title: "Phase 3 (Weeks 9–12): Testing & Deployment", desc: "Add automated tests and CI/CD pipelines." }
           ],
           Advanced: [
-            { title: "Phase 1: Performance & Scalability", desc: "Optimize Core Web Vitals, SSR/ISR rendering, and load balancing." },
-            { title: "Phase 2: Cloud & Microservices", desc: "Design containerized services with Docker, Kubernetes, and cloud infra." },
-            { title: "Phase 3: System Design", desc: "Architect high-availability applications and lead code reviews." }
+            { title: "Phase 1 (Weeks 1–4): Performance", desc: "Optimize bundle size, rendering, and Core Web Vitals." },
+            { title: "Phase 2 (Weeks 5–8): Scalability", desc: "Design service boundaries, queues, and observability." },
+            { title: "Phase 3 (Weeks 9–12): System Design", desc: "Lead architecture reviews and production rollouts." }
           ]
-        }
-      },
-      "embedded systems & iot": {
-        skills: ["C", "C++", "Microcontrollers", "Sensors & Protocols", "Python", "Git"],
-        roadmap: {
-          Beginner: [
-            { title: "Phase 1: C & Hardware Basics", desc: "Master pointers, bitwise operations in C, and basic circuit fundamentals." },
-            { title: "Phase 2: Microcontroller Programming", desc: "Work with ESP32/Arduino using GPIO, UART, I2C, and SPI protocols." },
-            { title: "Phase 3: Connected IoT Prototype", desc: "Send sensor data over Wi-Fi/MQTT to a dashboard with safety alerts." }
-          ],
-          Intermediate: [
-            { title: "Phase 1: RTOS & Interrupts", desc: "Implement FreeRTOS tasks, hardware timers, and low-power sleep modes." },
-            { title: "Phase 2: PCB & Reliability", desc: "Design custom schematics and add watchdog timers and error recovery." },
-            { title: "Phase 3: Edge Processing", desc: "Run lightweight filtering or TinyML inference directly on the device." }
-          ],
-          Advanced: [
-            { title: "Phase 1: Embedded Linux & Drivers", desc: "Develop custom kernel modules and Yocto/Buildroot images." },
-            { title: "Phase 2: Secure OTA Updates", desc: "Implement encrypted firmware updates and hardware root-of-trust." },
-            { title: "Phase 3: Industrial Compliance", desc: "Optimize EMC/EMI performance and scale hardware production." }
-          ]
-        }
+        },
+        studyPlan: [
+          { period: "Weeks 1–2", focus: "HTML, CSS & Git", routine: "3h responsive layouts; 2h Git workflow & deployment", output: "Responsive landing page" },
+          { period: "Weeks 3–4", focus: "JavaScript Core", routine: "3h JS fundamentals & async; 2h interactive DOM apps", output: "Interactive JS utility app" },
+          { period: "Weeks 5–7", focus: "React", routine: "3h components/hooks; 2h API consumption", output: "Multi-view React frontend" },
+          { period: "Weeks 8–9", focus: "SQL", routine: "3h schema & queries; 2h practice datasets", output: "Normalized DB schema" },
+          { period: "Weeks 10–11", focus: "Node.js API", routine: "3h REST endpoints; 2h connecting React + SQL", output: "Full-stack CRUD app" },
+          { period: "Week 12", focus: "Polish & Portfolio", routine: "3h bug fixes & docs; 2h live deployment", output: "Hosted full-stack portfolio" }
+        ]
       }
     };
 
     function parseSkills(raw) {
-      return raw
-        .split(",")
-        .map(s => s.trim())
-        .filter(Boolean);
+      return raw.split(",").map(s => s.trim()).filter(Boolean);
     }
 
     function addSkill(skillName) {
@@ -517,66 +618,99 @@
       }
     }
 
+    function askFormStepByStep() {
+      const skills = prompt("1/3 Your Skills (comma separated, e.g. Python, C, C++):");
+      if (skills === null) return;
+      document.getElementById("skillsInput").value = skills.trim();
+
+      const goal = prompt("2/3 Career Goal (e.g. Artificial intelligence):");
+      if (goal === null) return;
+      document.getElementById("goalInput").value = goal.trim();
+
+      const levelInput = prompt("3/3 Experience Level (Beginner, Intermediate, or Advanced):");
+      if (levelInput === null) return;
+      const normalized = levelInput.trim().toLowerCase();
+      const levelSelect = document.getElementById("levelSelect");
+      if (normalized.startsWith("beg")) levelSelect.value = "Beginner";
+      else if (normalized.startsWith("int")) levelSelect.value = "Intermediate";
+      else if (normalized.startsWith("adv")) levelSelect.value = "Advanced";
+      else levelSelect.value = "";
+
+      analyzeCareer();
+    }
+
     function handleSubmit(event) {
       event.preventDefault();
       analyzeCareer();
     }
 
+    function isExactOrTokenMatch(userSkill, reqSkill) {
+      const u = userSkill.trim().toLowerCase();
+      const r = reqSkill.trim().toLowerCase();
+      if (!u || !r) return false;
+      if (u === r) return true;
+      if (u.length >= 2) {
+        const tokens = r.split(/[\s/&+-]+/).filter(Boolean);
+        return tokens.includes(u);
+      }
+      return false;
+    }
+
     function analyzeCareer() {
       const rawSkills = document.getElementById("skillsInput").value;
       const userSkills = parseSkills(rawSkills);
-      const errorEl = document.getElementById("skillsError");
-
-      if (userSkills.length === 0) {
-        errorEl.style.display = "block";
-        document.getElementById("skillsInput").focus();
-        return;
-      }
-      errorEl.style.display = "none";
-
-      const goalRaw = document.getElementById("goalInput").value.trim() || "Artificial intelligence";
+      const goalRaw = document.getElementById("goalInput").value.trim();
       const level = document.getElementById("levelSelect").value;
+
+      const skillsError = document.getElementById("skillsError");
+      const goalError = document.getElementById("goalError");
+      const levelError = document.getElementById("levelError");
+
+      skillsError.style.display = "none";
+      goalError.style.display = "none";
+      levelError.style.display = "none";
+
+      let hasError = false;
+      if (userSkills.length === 0) {
+        skillsError.style.display = "block";
+        if (!hasError) document.getElementById("skillsInput").focus();
+        hasError = true;
+      }
+      if (!goalRaw) {
+        goalError.style.display = "block";
+        if (!hasError) document.getElementById("goalInput").focus();
+        hasError = true;
+      }
+      if (!level) {
+        levelError.style.display = "block";
+        if (!hasError) document.getElementById("levelSelect").focus();
+        hasError = true;
+      }
+      if (hasError) return;
 
       document.getElementById("skillsInput").value = userSkills.join(", ");
 
       const key = goalRaw.toLowerCase();
-      const matchedTrack = careerDatabase[key] || {
-        skills: ["Python", "Problem Solving", "Git", "System Design", "Data Analysis", "Communication"],
-        roadmap: {
-          Beginner: [
-            { title: "Phase 1: Core Fundamentals", desc: `Build strong programming and theoretical foundations tailored to ${goalRaw}.` },
-            { title: "Phase 2: Guided Projects", desc: `Create 2–3 hands-on portfolio projects solving real problems in ${goalRaw}.` },
-            { title: "Phase 3: Community & Portfolio", desc: "Document your work on GitHub and connect with peers in the field." }
-          ],
-          Intermediate: [
-            { title: "Phase 1: Specialized Tooling", desc: `Master industry-standard frameworks and workflows used in ${goalRaw}.` },
-            { title: "Phase 2: End-to-End Systems", desc: "Build production-ready applications with testing and clean architecture." },
-            { title: "Phase 3: Collaboration", desc: "Contribute to team projects, hackathons, or open-source repositories." }
-          ],
-          Advanced: [
-            { title: "Phase 1: Optimization & Scale", desc: `Focus on performance tuning, reliability, and advanced patterns in ${goalRaw}.` },
-            { title: "Phase 2: Architecture & Mentoring", desc: "Design scalable solutions and mentor junior developers." },
-            { title: "Phase 3: Thought Leadership", desc: "Publish technical articles, benchmarks, or open-source tools." }
-          ]
-        }
-      };
+      const matchedTrack = careerDatabase[key] || careerDatabase["artificial intelligence"];
 
-      const metaChips = document.getElementById("metaChips");
-      metaChips.innerHTML = `
+      document.getElementById("metaChips").innerHTML = `
         <span class="chip">Skills: ${userSkills.join(", ")}</span>
         <span class="chip">Career Goal: ${goalRaw}</span>
         <span class="chip">Experience: ${level}</span>
       `;
 
-      const userLower = userSkills.map(s => s.toLowerCase());
       let matchedCount = 0;
-
+      const missingSkills = [];
       const skillList = document.getElementById("skillList");
       skillList.innerHTML = "";
 
       matchedTrack.skills.forEach(reqSkill => {
-        const hasIt = userLower.some(u => u === reqSkill.toLowerCase() || (reqSkill.toLowerCase().includes(u) && u.length > 1));
-        if (hasIt) matchedCount++;
+        const hasIt = userSkills.some(u => isExactOrTokenMatch(u, reqSkill));
+        if (hasIt) {
+          matchedCount++;
+        } else {
+          missingSkills.push(reqSkill);
+        }
 
         const tag = document.createElement("span");
         tag.className = `skill-tag ${hasIt ? "have" : "missing"}`;
@@ -585,7 +719,7 @@
       });
 
       userSkills.forEach(uSkill => {
-        const inCore = matchedTrack.skills.some(r => r.toLowerCase() === uSkill.toLowerCase() || r.toLowerCase().includes(uSkill.toLowerCase()));
+        const inCore = matchedTrack.skills.some(r => isExactOrTokenMatch(uSkill, r));
         if (!inCore) {
           const tag = document.createElement("span");
           tag.className = "skill-tag have";
@@ -593,6 +727,27 @@
           skillList.appendChild(tag);
         }
       });
+
+      // Priority List
+      const priorityList = document.getElementById("priorityList");
+      priorityList.innerHTML = "";
+      if (missingSkills.length === 0) {
+        priorityList.innerHTML = `<div class="priority-item"><span>All core skills covered! Focus on building and deploying end-to-end projects.</span><span class="priority-badge">Ready</span></div>`;
+      } else {
+        missingSkills.forEach((skill, idx) => {
+          const note = (matchedTrack.skillNotes && matchedTrack.skillNotes[skill]) || `Core foundation for ${goalRaw}.`;
+          const item = document.createElement("div");
+          item.className = "priority-item";
+          item.innerHTML = `
+            <div>
+              <strong>${skill}</strong>
+              <div style="color:#64748b;font-size:0.82rem;margin-top:2px;">${note}</div>
+            </div>
+            <span class="priority-badge">${idx === 0 ? "Priority #1 • Start Here" : `Priority #${idx + 1}`}</span>
+          `;
+          priorityList.appendChild(item);
+        });
+      }
 
       const baseScore = Math.round((matchedCount / matchedTrack.skills.length) * 100);
       const bonus = Math.min(15, Math.max(0, (userSkills.length - matchedCount) * 5));
@@ -604,12 +759,24 @@
       const roadmapList = document.getElementById("roadmapList");
       roadmapList.innerHTML = "";
       const steps = matchedTrack.roadmap[level] || matchedTrack.roadmap.Beginner;
-
       steps.forEach(step => {
         const div = document.createElement("div");
         div.className = "step-box";
         div.innerHTML = `<strong>${step.title}</strong><p>${step.desc}</p>`;
         roadmapList.appendChild(div);
+      });
+
+      const studyPlanBody = document.getElementById("studyPlanBody");
+      studyPlanBody.innerHTML = "";
+      matchedTrack.studyPlan.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${row.period}</strong></td>
+          <td>${row.focus}</td>
+          <td>${row.routine}</td>
+          <td>${row.output}</td>
+        `;
+        studyPlanBody.appendChild(tr);
       });
 
       document.getElementById("emptyState").style.display = "none";
@@ -625,8 +792,10 @@
     function resetForm() {
       document.getElementById("skillsInput").value = "";
       document.getElementById("goalInput").value = "";
-      document.getElementById("levelSelect").value = "Beginner";
+      document.getElementById("levelSelect").value = "";
       document.getElementById("skillsError").style.display = "none";
+      document.getElementById("goalError").style.display = "none";
+      document.getElementById("levelError").style.display = "none";
       document.getElementById("resultContent").style.display = "none";
       document.getElementById("copyBtn").style.display = "none";
       document.getElementById("emptyState").style.display = "block";
@@ -635,20 +804,24 @@
 
     function copyReport() {
       const skills = document.getElementById("skillsInput").value;
-      const goal = document.getElementById("goalInput").value || "Artificial intelligence";
+      const goal = document.getElementById("goalInput").value;
       const level = document.getElementById("levelSelect").value;
       const score = document.getElementById("scoreText").textContent;
       const skillItems = Array.from(document.querySelectorAll("#skillList .skill-tag"))
         .map(el => "- " + el.textContent)
         .join("\n");
 
-      const text = `Skills: ${skills}\nCareer Goal: ${goal}\nExperience: ${level}\nReadiness: ${score}\n\nRecommended Skills:\n${skillItems}`;
+      const text = `Skills: ${skills}\nCareer Goal: ${goal}\nExperience: ${level}\nReadiness: ${score}\n\nSkills Breakdown:\n${skillItems}`;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById("copyBtn");
         btn.textContent = "Copied!";
         setTimeout(() => (btn.textContent = "Copy Summary"), 1500);
       });
     }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(askFormStepByStep, 200);
+    });
   </script>
 </body>
 </html>
