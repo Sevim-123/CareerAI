@@ -17,6 +17,8 @@
       --success-text: #166534;
       --warn-bg: #fef3c7;
       --warn-text: #92400e;
+      --error-bg: #fee2e2;
+      --error-text: #991b1b;
       --chip-bg: #eef2ff;
       --chip-text: #3730a3;
     }
@@ -124,6 +126,17 @@
       box-shadow: 0 0 0 3px rgba(59, 73, 223, 0.15);
     }
 
+    .error-msg {
+      display: none;
+      background: var(--error-bg);
+      color: var(--error-text);
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
     .quick-skills {
       display: flex;
       flex-wrap: wrap;
@@ -191,7 +204,19 @@
     }
 
     /* Result Styling */
-    .result-area {
+    .empty-state {
+      text-align: center;
+      padding: 36px 16px;
+      color: var(--text-muted);
+    }
+
+    .empty-state p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .result-content {
+      display: none;
       animation: fadeIn 0.3s ease;
     }
 
@@ -331,12 +356,13 @@
 
     <div class="grid">
       <!-- Left Card: Form -->
-      <div class="card">
+      <form class="card" id="careerForm" onsubmit="handleSubmit(event)">
         <h2>Your Profile</h2>
 
         <div class="form-group">
-          <label for="skillsInput">Your Skills (comma separated)</label>
-          <input type="text" id="skillsInput" value="Python, C" placeholder="e.g. Python, C, SQL, Git" />
+          <label for="skillsInput">Your Skills</label>
+          <input type="text" id="skillsInput" placeholder="e.g. Python, C" />
+          <div class="error-msg" id="skillsError">Please enter at least one skill (e.g. Python, C).</div>
           <div class="quick-skills">
             <button type="button" class="quick-btn" onclick="addSkill('Python')">+ Python</button>
             <button type="button" class="quick-btn" onclick="addSkill('C')">+ C</button>
@@ -350,9 +376,9 @@
 
         <div class="form-group">
           <label for="goalInput">Career Goal</label>
-          <input type="text" id="goalInput" list="goalSuggestions" value="Artificial Intelligence" placeholder="e.g. Artificial Intelligence, Web Development" />
+          <input type="text" id="goalInput" list="goalSuggestions" placeholder="e.g. Artificial intelligence" />
           <datalist id="goalSuggestions">
-            <option value="Artificial Intelligence"></option>
+            <option value="Artificial intelligence"></option>
             <option value="Web Development"></option>
             <option value="Data Science"></option>
             <option value="Embedded Systems & IoT"></option>
@@ -370,35 +396,41 @@
         </div>
 
         <div class="btn-row">
-          <button type="button" class="btn-primary" onclick="analyzeCareer()">Analyze My Career</button>
+          <button type="submit" class="btn-primary">Analyze My Career</button>
           <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
         </div>
-      </div>
+      </form>
 
       <!-- Right Card: Analysis Result -->
-      <div class="card result-area" id="resultCard">
+      <div class="card" id="resultCard">
         <h2>
           <span>Your Career Analysis</span>
-          <button type="button" class="copy-btn" onclick="copyReport()" id="copyBtn">Copy Summary</button>
+          <button type="button" class="copy-btn" onclick="copyReport()" id="copyBtn" style="display: none;">Copy Summary</button>
         </h2>
 
-        <div class="meta-chips" id="metaChips"></div>
-
-        <div class="score-box">
-          <div class="score-header">
-            <span>Goal Readiness Score</span>
-            <span id="scoreText">0%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" id="scoreBar" style="width: 0%;"></div>
-          </div>
+        <div class="empty-state" id="emptyState">
+          <p>Fill out <strong>Your Skills</strong>, <strong>Career Goal</strong>, and <strong>Experience Level</strong> on the left, then click <strong>Analyze My Career</strong>.</p>
         </div>
 
-        <div class="section-title">Skill Gap Breakdown</div>
-        <div class="skill-list" id="skillList"></div>
+        <div class="result-content" id="resultContent">
+          <div class="meta-chips" id="metaChips"></div>
 
-        <div class="section-title">Recommended Action Roadmap</div>
-        <div class="roadmap" id="roadmapList"></div>
+          <div class="score-box">
+            <div class="score-header">
+              <span>Goal Readiness Score</span>
+              <span id="scoreText">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="scoreBar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="section-title">Skill Gap Breakdown</div>
+          <div class="skill-list" id="skillList"></div>
+
+          <div class="section-title">Recommended Action Roadmap</div>
+          <div class="roadmap" id="roadmapList"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -481,16 +513,30 @@
       if (!exists) {
         current.push(skillName);
         input.value = current.join(", ");
+        document.getElementById("skillsError").style.display = "none";
       }
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      analyzeCareer();
     }
 
     function analyzeCareer() {
       const rawSkills = document.getElementById("skillsInput").value;
       const userSkills = parseSkills(rawSkills);
-      const goalRaw = document.getElementById("goalInput").value.trim() || "Artificial Intelligence";
+      const errorEl = document.getElementById("skillsError");
+
+      if (userSkills.length === 0) {
+        errorEl.style.display = "block";
+        document.getElementById("skillsInput").focus();
+        return;
+      }
+      errorEl.style.display = "none";
+
+      const goalRaw = document.getElementById("goalInput").value.trim() || "Artificial intelligence";
       const level = document.getElementById("levelSelect").value;
 
-      // Clean input display
       document.getElementById("skillsInput").value = userSkills.join(", ");
 
       const key = goalRaw.toLowerCase();
@@ -515,15 +561,13 @@
         }
       };
 
-      // Update top chips
       const metaChips = document.getElementById("metaChips");
       metaChips.innerHTML = `
-        <span class="chip">Goal: ${goalRaw}</span>
-        <span class="chip">Level: ${level}</span>
-        <span class="chip">Entered Skills: ${userSkills.length}</span>
+        <span class="chip">Skills: ${userSkills.join(", ")}</span>
+        <span class="chip">Career Goal: ${goalRaw}</span>
+        <span class="chip">Experience: ${level}</span>
       `;
 
-      // Match skills case-insensitively
       const userLower = userSkills.map(s => s.toLowerCase());
       let matchedCount = 0;
 
@@ -531,7 +575,7 @@
       skillList.innerHTML = "";
 
       matchedTrack.skills.forEach(reqSkill => {
-        const hasIt = userLower.some(u => u === reqSkill.toLowerCase() || reqSkill.toLowerCase().includes(u) && u.length > 1);
+        const hasIt = userLower.some(u => u === reqSkill.toLowerCase() || (reqSkill.toLowerCase().includes(u) && u.length > 1));
         if (hasIt) matchedCount++;
 
         const tag = document.createElement("span");
@@ -540,7 +584,6 @@
         skillList.appendChild(tag);
       });
 
-      // Also show extra user skills not in the core list
       userSkills.forEach(uSkill => {
         const inCore = matchedTrack.skills.some(r => r.toLowerCase() === uSkill.toLowerCase() || r.toLowerCase().includes(uSkill.toLowerCase()));
         if (!inCore) {
@@ -551,7 +594,6 @@
         }
       });
 
-      // Readiness score
       const baseScore = Math.round((matchedCount / matchedTrack.skills.length) * 100);
       const bonus = Math.min(15, Math.max(0, (userSkills.length - matchedCount) * 5));
       const finalScore = Math.min(100, baseScore + bonus);
@@ -559,7 +601,6 @@
       document.getElementById("scoreText").textContent = `${finalScore}%`;
       document.getElementById("scoreBar").style.width = `${finalScore}%`;
 
-      // Roadmap steps
       const roadmapList = document.getElementById("roadmapList");
       roadmapList.innerHTML = "";
       const steps = matchedTrack.roadmap[level] || matchedTrack.roadmap.Beginner;
@@ -571,38 +612,43 @@
         roadmapList.appendChild(div);
       });
 
-      // Re-trigger subtle animation
-      const card = document.getElementById("resultCard");
-      card.classList.remove("result-area");
-      void card.offsetWidth;
-      card.classList.add("result-area");
+      document.getElementById("emptyState").style.display = "none";
+      document.getElementById("copyBtn").style.display = "inline-block";
+
+      const content = document.getElementById("resultContent");
+      content.style.display = "block";
+      content.classList.remove("result-content");
+      void content.offsetWidth;
+      content.classList.add("result-content");
     }
 
     function resetForm() {
       document.getElementById("skillsInput").value = "";
-      document.getElementById("goalInput").value = "Artificial Intelligence";
+      document.getElementById("goalInput").value = "";
       document.getElementById("levelSelect").value = "Beginner";
-      analyzeCareer();
+      document.getElementById("skillsError").style.display = "none";
+      document.getElementById("resultContent").style.display = "none";
+      document.getElementById("copyBtn").style.display = "none";
+      document.getElementById("emptyState").style.display = "block";
+      document.getElementById("skillsInput").focus();
     }
 
     function copyReport() {
-      const goal = document.getElementById("goalInput").value;
+      const skills = document.getElementById("skillsInput").value;
+      const goal = document.getElementById("goalInput").value || "Artificial intelligence";
       const level = document.getElementById("levelSelect").value;
       const score = document.getElementById("scoreText").textContent;
-      const skills = Array.from(document.querySelectorAll("#skillList .skill-tag"))
+      const skillItems = Array.from(document.querySelectorAll("#skillList .skill-tag"))
         .map(el => "- " + el.textContent)
         .join("\n");
 
-      const text = `Career Analysis (${goal} - ${level})\nReadiness: ${score}\n\nSkills:\n${skills}`;
+      const text = `Skills: ${skills}\nCareer Goal: ${goal}\nExperience: ${level}\nReadiness: ${score}\n\nRecommended Skills:\n${skillItems}`;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById("copyBtn");
         btn.textContent = "Copied!";
         setTimeout(() => (btn.textContent = "Copy Summary"), 1500);
       });
     }
-
-    // Run initial analysis on page load
-    window.addEventListener("DOMContentLoaded", analyzeCareer);
   </script>
 </body>
 </html>
