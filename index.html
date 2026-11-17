@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Analysis & Roadmap</title>
+  <title>Career Skill & Roadmap Analyzer</title>
   <style>
     :root {
       --bg: #f1f5f9;
@@ -36,7 +36,7 @@
       background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
       color: var(--text-main);
       min-height: 100vh;
-      padding: 28px 16px;
+      padding: 26px 16px;
     }
 
     .container {
@@ -46,39 +46,39 @@
 
     header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .badge-top {
       display: inline-block;
       background: var(--chip-bg);
       color: var(--primary);
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 700;
       padding: 5px 12px;
       border-radius: 999px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     header h1 {
-      font-size: 1.9rem;
+      font-size: 1.85rem;
       font-weight: 700;
       margin-bottom: 6px;
     }
 
     header p {
       color: var(--text-muted);
-      font-size: 0.98rem;
+      font-size: 0.95rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 0.95fr 1.35fr;
-      gap: 22px;
+      grid-template-columns: 0.92fr 1.38fr;
+      gap: 20px;
       align-items: start;
     }
 
-    @media (max-width: 880px) {
+    @media (max-width: 900px) {
       .grid {
         grid-template-columns: 1fr;
       }
@@ -87,27 +87,28 @@
     .card {
       background: var(--card);
       border-radius: 16px;
-      padding: 24px;
+      padding: 22px;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
       border: 1px solid var(--border);
     }
 
     .card h2 {
-      font-size: 1.2rem;
-      margin-bottom: 18px;
+      font-size: 1.18rem;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 15px;
     }
 
     label {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       margin-bottom: 6px;
       color: #334155;
@@ -115,10 +116,10 @@
 
     input, select {
       width: 100%;
-      padding: 11px 14px;
+      padding: 10px 13px;
       border: 1.5px solid var(--border);
       border-radius: 10px;
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       transition: border-color 0.2s, box-shadow 0.2s;
       background: #fff;
       color: var(--text-main);
@@ -134,21 +135,21 @@
       display: none;
       background: var(--error-bg);
       color: var(--error-text);
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 600;
       padding: 8px 12px;
       border-radius: 8px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
-    .quick-skills {
+    .pill-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-top: 8px;
     }
 
-    .quick-btn {
+    .pill-btn {
       background: #f1f5f9;
       border: 1px solid var(--border);
       color: #334155;
@@ -159,16 +160,32 @@
       transition: all 0.15s;
     }
 
-    .quick-btn:hover {
+    .pill-btn:hover {
       background: var(--chip-bg);
       border-color: var(--primary);
       color: var(--primary);
     }
 
+    .demo-bar {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+    }
+
+    .demo-bar span {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
     .btn-row {
       display: flex;
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 18px;
     }
 
     .btn-primary {
@@ -176,12 +193,12 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 12px 18px;
+      padding: 12px 16px;
       border-radius: 10px;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s;
     }
 
     .btn-primary:hover {
@@ -194,7 +211,7 @@
       border: 1px solid var(--border);
       padding: 12px 14px;
       border-radius: 10px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -203,25 +220,20 @@
       background: #e2e8f0;
     }
 
-    /* Result Styling */
     .empty-state {
       text-align: center;
-      padding: 40px 16px;
+      padding: 42px 16px;
       color: var(--text-muted);
-    }
-
-    .empty-state p {
-      font-size: 0.95rem;
       line-height: 1.6;
     }
 
     .result-content {
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: fadeIn 0.25s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -229,7 +241,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 12px;
     }
 
     .chip {
@@ -237,8 +249,19 @@
       color: var(--chip-text);
       padding: 5px 11px;
       border-radius: 8px;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 600;
+    }
+
+    .notice-banner {
+      display: none;
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 14px;
     }
 
     .score-box {
@@ -246,14 +269,14 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .score-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.88rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 700;
       margin-bottom: 8px;
     }
 
@@ -263,20 +286,63 @@
       background: #e2e8f0;
       border-radius: 999px;
       overflow: hidden;
+      margin-bottom: 8px;
     }
 
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #3b49df, #10b981);
       border-radius: 999px;
-      transition: width 0.5s ease;
+      transition: width 0.4s ease;
+    }
+
+    .formula-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .subtabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .subtab-btn {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      color: #475569;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .subtab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .subpanel {
+      display: none;
+    }
+
+    .subpanel.active {
+      display: block;
     }
 
     .section-title {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: #1e293b;
-      margin: 18px 0 10px;
+      margin: 14px 0 8px;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
     }
 
     .skill-list {
@@ -291,8 +357,9 @@
       gap: 6px;
       padding: 6px 12px;
       border-radius: 999px;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 600;
+      border: 1px solid transparent;
     }
 
     .skill-tag.have {
@@ -303,20 +370,24 @@
     .skill-tag.missing {
       background: var(--warn-bg);
       color: var(--warn-text);
+      cursor: pointer;
     }
 
-    .skill-tag.top-priority {
-      background: var(--priority-bg);
-      color: var(--priority-text);
-      border: 1px solid #93c5fd;
+    .skill-tag.missing:hover {
+      border-color: #d97706;
+    }
+
+    .skill-tag.completed {
+      background: #dbeafe;
+      color: #1e40af;
+      cursor: pointer;
     }
 
     .priority-box {
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 14px;
-      margin-top: 10px;
+      padding: 12px 14px;
     }
 
     .priority-item {
@@ -326,7 +397,7 @@
       gap: 10px;
       padding: 8px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.87rem;
+      font-size: 0.86rem;
     }
 
     .priority-item:last-child {
@@ -338,7 +409,7 @@
       background: var(--priority-bg);
       color: var(--priority-text);
       font-weight: 700;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       padding: 3px 8px;
       border-radius: 999px;
       white-space: nowrap;
@@ -347,7 +418,6 @@
     .roadmap {
       display: grid;
       gap: 10px;
-      margin-top: 8px;
     }
 
     .step-box {
@@ -359,20 +429,19 @@
 
     .step-box strong {
       display: block;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--primary);
       margin-bottom: 3px;
     }
 
     .step-box p {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: #334155;
       line-height: 1.4;
     }
 
     .table-wrap {
       overflow-x: auto;
-      margin-top: 8px;
       border: 1px solid var(--border);
       border-radius: 12px;
     }
@@ -380,7 +449,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       background: #fff;
     }
 
@@ -421,41 +490,46 @@
     <header>
       <span class="badge-top">Smart Career Pathfinder</span>
       <h1>Career Skill & Roadmap Analyzer</h1>
-      <p>Enter your current skills and target role to get a prioritized skill gap analysis and a 12-week study plan.</p>
+      <p>Enter your current skills and target role to get a transparent readiness score, skill gap breakdown, and 12-week study plan.</p>
     </header>
 
     <div class="grid">
-      <!-- Left Card: Form -->
       <form class="card" id="careerForm" onsubmit="handleSubmit(event)">
         <h2>
           <span>Your Profile</span>
-          <button type="button" class="copy-btn" onclick="askFormStepByStep()">Ask Step-by-Step</button>
+          <button type="button" class="copy-btn" onclick="askFormStepByStep()">Step-by-Step</button>
         </h2>
+
+        <div class="demo-bar">
+          <span>Quick Jury Demo Presets</span>
+          <div class="pill-row" style="margin-top:0;">
+            <button type="button" class="pill-btn" onclick="loadPreset('ai')">Demo: Beginner AI (Python, C, C++)</button>
+            <button type="button" class="pill-btn" onclick="loadPreset('web')">Demo: Beginner Web Dev</button>
+          </div>
+        </div>
 
         <div class="form-group">
           <label for="skillsInput">1. Your Skills</label>
           <input type="text" id="skillsInput" placeholder="e.g. Python, C, C++" autocomplete="off" />
-          <div class="error-msg" id="skillsError">Please enter your skills first (e.g. Python, C, C++).</div>
-          <div class="quick-skills">
-            <button type="button" class="quick-btn" onclick="addSkill('Python')">+ Python</button>
-            <button type="button" class="quick-btn" onclick="addSkill('C')">+ C</button>
-            <button type="button" class="quick-btn" onclick="addSkill('C++')">+ C++</button>
-            <button type="button" class="quick-btn" onclick="addSkill('JavaScript')">+ JavaScript</button>
-            <button type="button" class="quick-btn" onclick="addSkill('HTML/CSS')">+ HTML/CSS</button>
-            <button type="button" class="quick-btn" onclick="addSkill('SQL')">+ SQL</button>
-            <button type="button" class="quick-btn" onclick="addSkill('Git')">+ Git</button>
+          <div class="error-msg" id="skillsError">Please enter at least one skill (e.g. Python, C, C++).</div>
+          <div class="pill-row">
+            <button type="button" class="pill-btn" onclick="addSkill('Python')">+ Python</button>
+            <button type="button" class="pill-btn" onclick="addSkill('C')">+ C</button>
+            <button type="button" class="pill-btn" onclick="addSkill('C++')">+ C++</button>
+            <button type="button" class="pill-btn" onclick="addSkill('JavaScript')">+ JavaScript</button>
+            <button type="button" class="pill-btn" onclick="addSkill('HTML/CSS')">+ HTML/CSS</button>
+            <button type="button" class="pill-btn" onclick="addSkill('SQL')">+ SQL</button>
+            <button type="button" class="pill-btn" onclick="addSkill('Git')">+ Git</button>
           </div>
         </div>
 
         <div class="form-group">
           <label for="goalInput">2. Career Goal</label>
           <input type="text" id="goalInput" list="goalSuggestions" placeholder="e.g. Artificial intelligence" autocomplete="off" />
-          <div class="error-msg" id="goalError">Please enter your career goal.</div>
+          <div class="error-msg" id="goalError">Please enter a career goal.</div>
           <datalist id="goalSuggestions">
             <option value="Artificial intelligence"></option>
             <option value="Web Development"></option>
-            <option value="Data Science"></option>
-            <option value="Embedded Systems & IoT"></option>
           </datalist>
         </div>
 
@@ -476,19 +550,19 @@
         </div>
       </form>
 
-      <!-- Right Card: Analysis Result -->
       <div class="card" id="resultCard">
         <h2>
           <span>Your Career Analysis</span>
-          <button type="button" class="copy-btn" onclick="copyReport()" id="copyBtn" style="display: none;">Copy Summary</button>
+          <button type="button" class="copy-btn" onclick="copyReport()" id="copyBtn" style="display:none;">Copy Summary</button>
         </h2>
 
         <div class="empty-state" id="emptyState">
-          <p>Answer the prompts or fill out <strong>Your Skills</strong>, <strong>Career Goal</strong>, and <strong>Experience Level</strong> on the left, then click <strong>Analyze My Career</strong>.</p>
+          Fill out <strong>Your Profile</strong> on the left or click a <strong>Quick Jury Demo Preset</strong> to generate your skill gap analysis and study plan.
         </div>
 
         <div class="result-content" id="resultContent">
           <div class="meta-chips" id="metaChips"></div>
+          <div class="notice-banner" id="fallbackNotice"></div>
 
           <div class="score-box">
             <div class="score-header">
@@ -498,30 +572,40 @@
             <div class="progress-track">
               <div class="progress-fill" id="scoreBar" style="width: 0%;"></div>
             </div>
+            <div class="formula-note" id="formulaNote"></div>
           </div>
 
-          <div class="section-title">Skill Gap Breakdown</div>
-          <div class="skill-list" id="skillList"></div>
+          <div class="subtabs">
+            <button type="button" class="subtab-btn active" onclick="switchSubtab('overview', this)">Skills & Roadmap</button>
+            <button type="button" class="subtab-btn" onclick="switchSubtab('plan', this)">12-Week Study Plan</button>
+          </div>
 
-          <div class="section-title">Priority Order (Where to Start)</div>
-          <div class="priority-box" id="priorityList"></div>
+          <div class="subpanel active" id="subpanel-overview">
+            <div class="section-title">Skill Gap Breakdown (Click recommended skills to mark completed)</div>
+            <div class="skill-list" id="skillList"></div>
 
-          <div class="section-title">Recommended Action Roadmap</div>
-          <div class="roadmap" id="roadmapList"></div>
+            <div class="section-title">Priority Order (Where to Start)</div>
+            <div class="priority-box" id="priorityList"></div>
 
-          <div class="section-title">12-Week Study Plan</div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Period</th>
-                  <th>Focus Area</th>
-                  <th>Weekly Routine (5–6 hrs)</th>
-                  <th>Target Output</th>
-                </tr>
-              </thead>
-              <tbody id="studyPlanBody"></tbody>
-            </table>
+            <div class="section-title">Recommended Action Roadmap</div>
+            <div class="roadmap" id="roadmapList"></div>
+          </div>
+
+          <div class="subpanel" id="subpanel-plan">
+            <div class="section-title">12-Week Structured Study Plan</div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Period</th>
+                    <th>Focus Area</th>
+                    <th>Weekly Routine</th>
+                    <th>Target Output</th>
+                  </tr>
+                </thead>
+                <tbody id="studyPlanBody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -529,19 +613,25 @@
   </div>
 
   <script>
+    const STORAGE_KEY = "career_analyzer_state_v1";
+    let completedRecommended = new Set();
+    let currentAnalysis = null;
+
     const careerDatabase = {
       "artificial intelligence": {
+        label: "Artificial intelligence",
         skills: ["Python", "Git", "Data Structures", "Math & Statistics", "Machine Learning", "Deep Learning"],
+        foundationalSkills: ["C", "C++"],
         skillNotes: {
           "Git": "Version control, branches, and clean GitHub commits.",
-          "Data Structures": "Lists, dicts, sets, Big-O complexity, and C/C++ structure comparison.",
+          "Data Structures": "Lists, dicts, sets, Big-O complexity, and C/C++ memory/structure comparison.",
           "Math & Statistics": "Linear algebra (vectors/matrices), probability, mean/variance, gradients.",
           "Machine Learning": "NumPy, Pandas, Scikit-Learn, train/test split, classification/regression.",
           "Deep Learning": "Neural network basics and PyTorch tensor/model training."
         },
         roadmap: {
           Beginner: [
-            { title: "Phase 1 (Weeks 1–3): Workflow & Foundations", desc: "Set up Git/GitHub, reinforce Python data structures alongside C/C++ concepts." },
+            { title: "Phase 1 (Weeks 1–3): Workflow & Foundations", desc: "Set up Git/GitHub and reinforce Python data structures alongside C/C++ fundamentals." },
             { title: "Phase 2 (Weeks 4–8): Math & Classical ML", desc: "Cover linear algebra & statistics, then practice NumPy, Pandas, and Scikit-Learn." },
             { title: "Phase 3 (Weeks 9–12): Evaluation & Deep Learning", desc: "Master model validation, build 1 end-to-end ML project, and start PyTorch basics." }
           ],
@@ -566,7 +656,9 @@
         ]
       },
       "web development": {
+        label: "Web Development",
         skills: ["HTML/CSS", "JavaScript", "Git", "React", "SQL", "Node.js"],
+        foundationalSkills: ["Python", "C", "C++"],
         skillNotes: {
           "HTML/CSS": "Semantic structure, Flexbox/Grid, responsive layouts.",
           "JavaScript": "ES6+, async/await, DOM manipulation, fetch API.",
@@ -607,15 +699,41 @@
       return raw.split(",").map(s => s.trim()).filter(Boolean);
     }
 
+    function normalizeSkill(skill) {
+      const s = skill.trim().toLowerCase();
+      if (s === "c++") return "C++";
+      if (s === "c") return "C";
+      if (s === "python") return "Python";
+      if (s === "js" || s === "javascript") return "JavaScript";
+      if (s === "html" || s === "css" || s === "html/css") return "HTML/CSS";
+      if (s === "sql") return "SQL";
+      if (s === "git") return "Git";
+      return skill.trim();
+    }
+
     function addSkill(skillName) {
       const input = document.getElementById("skillsInput");
-      const current = parseSkills(input.value);
-      const exists = current.some(s => s.toLowerCase() === skillName.toLowerCase());
-      if (!exists) {
-        current.push(skillName);
+      const current = parseSkills(input.value).map(normalizeSkill);
+      const normalized = normalizeSkill(skillName);
+      if (!current.some(s => s.toLowerCase() === normalized.toLowerCase())) {
+        current.push(normalized);
         input.value = current.join(", ");
         document.getElementById("skillsError").style.display = "none";
       }
+    }
+
+    function loadPreset(type) {
+      if (type === "ai") {
+        document.getElementById("skillsInput").value = "Python, C, C++";
+        document.getElementById("goalInput").value = "Artificial intelligence";
+        document.getElementById("levelSelect").value = "Beginner";
+      } else {
+        document.getElementById("skillsInput").value = "HTML/CSS, Git";
+        document.getElementById("goalInput").value = "Web Development";
+        document.getElementById("levelSelect").value = "Beginner";
+      }
+      completedRecommended.clear();
+      analyzeCareer();
     }
 
     function askFormStepByStep() {
@@ -634,31 +752,124 @@
       if (normalized.startsWith("beg")) levelSelect.value = "Beginner";
       else if (normalized.startsWith("int")) levelSelect.value = "Intermediate";
       else if (normalized.startsWith("adv")) levelSelect.value = "Advanced";
-      else levelSelect.value = "";
 
+      completedRecommended.clear();
       analyzeCareer();
     }
 
     function handleSubmit(event) {
       event.preventDefault();
+      completedRecommended.clear();
       analyzeCareer();
     }
 
-    function isExactOrTokenMatch(userSkill, reqSkill) {
+    function isSkillMatch(userSkill, reqSkill) {
       const u = userSkill.trim().toLowerCase();
       const r = reqSkill.trim().toLowerCase();
       if (!u || !r) return false;
       if (u === r) return true;
-      if (u.length >= 2) {
-        const tokens = r.split(/[\s/&+-]+/).filter(Boolean);
-        return tokens.includes(u);
+      if (u === "c" || u === "c++") return false;
+      const tokens = r.split(/[\s/&+-]+/).filter(Boolean);
+      return tokens.includes(u);
+    }
+
+    function toggleRecommended(skillName) {
+      if (completedRecommended.has(skillName)) {
+        completedRecommended.delete(skillName);
+      } else {
+        completedRecommended.add(skillName);
       }
-      return false;
+      renderScoreAndSkills();
+      saveState();
+    }
+
+    function renderScoreAndSkills() {
+      if (!currentAnalysis) return;
+      const { userSkills, goalRaw, matchedTrack } = currentAnalysis;
+
+      const skillList = document.getElementById("skillList");
+      skillList.innerHTML = "";
+
+      let matchedCore = 0;
+      const missingSkills = [];
+
+      matchedTrack.skills.forEach(reqSkill => {
+        const hasIt = userSkills.some(u => isSkillMatch(u, reqSkill));
+        const isDone = hasIt || completedRecommended.has(reqSkill);
+        if (hasIt) matchedCore++;
+        if (!hasIt) missingSkills.push(reqSkill);
+
+        const tag = document.createElement("span");
+        if (hasIt) {
+          tag.className = "skill-tag have";
+          tag.textContent = `✓ ${reqSkill} (Have)`;
+        } else if (isDone) {
+          tag.className = "skill-tag completed";
+          tag.textContent = `✓ ${reqSkill} (Completed)`;
+          tag.onclick = () => toggleRecommended(reqSkill);
+        } else {
+          tag.className = "skill-tag missing";
+          tag.textContent = `+ ${reqSkill} (Recommended)`;
+          tag.onclick = () => toggleRecommended(reqSkill);
+        }
+        skillList.appendChild(tag);
+      });
+
+      userSkills.forEach(uSkill => {
+        const inCore = matchedTrack.skills.some(r => isSkillMatch(uSkill, r));
+        if (!inCore) {
+          const isFoundation = matchedTrack.foundationalSkills.some(
+            f => f.toLowerCase() === uSkill.toLowerCase()
+          );
+          const tag = document.createElement("span");
+          tag.className = "skill-tag have";
+          tag.textContent = isFoundation
+            ? `✓ ${uSkill} (Foundational Programming)`
+            : `✓ ${uSkill} (Additional Skill)`;
+          skillList.appendChild(tag);
+        }
+      });
+
+      const effectiveMatched = Math.min(
+        matchedTrack.skills.length,
+        matchedCore + completedRecommended.size
+      );
+      const coreRatio = Math.round((effectiveMatched / matchedTrack.skills.length) * 85);
+      const foundationCount = userSkills.filter(u =>
+        matchedTrack.foundationalSkills.some(f => f.toLowerCase() === u.toLowerCase())
+      ).length;
+      const foundationBonus = Math.min(15, foundationCount * 7);
+      const finalScore = Math.min(100, coreRatio + foundationBonus);
+
+      document.getElementById("scoreText").textContent = `${finalScore}%`;
+      document.getElementById("scoreBar").style.width = `${finalScore}%`;
+      document.getElementById("formulaNote").textContent =
+        `Formula: (${effectiveMatched}/${matchedTrack.skills.length} core skills → ${coreRatio}%) + (${foundationCount} foundational C/C++ skill(s) → +${foundationBonus}%)`;
+
+      const priorityList = document.getElementById("priorityList");
+      priorityList.innerHTML = "";
+      if (missingSkills.length === 0) {
+        priorityList.innerHTML = `<div class="priority-item"><span>All core skills covered! Focus on building and deploying end-to-end projects.</span><span class="priority-badge">Ready</span></div>`;
+      } else {
+        missingSkills.forEach((skill, idx) => {
+          const note = matchedTrack.skillNotes[skill] || `Core requirement for ${goalRaw}.`;
+          const item = document.createElement("div");
+          item.className = "priority-item";
+          item.innerHTML = `
+            <div>
+              <strong>${skill}</strong>
+              <div style="color:#64748b;font-size:0.81rem;margin-top:2px;">${note}</div>
+            </div>
+            <span class="priority-badge">${idx === 0 ? "Priority #1 • Start Here" : `Priority #${idx + 1}`}</span>
+          `;
+          priorityList.appendChild(item);
+        });
+      }
     }
 
     function analyzeCareer() {
       const rawSkills = document.getElementById("skillsInput").value;
-      const userSkills = parseSkills(rawSkills);
+      const userSkills = parseSkills(rawSkills).map(normalizeSkill);
       const goalRaw = document.getElementById("goalInput").value.trim();
       const level = document.getElementById("levelSelect").value;
 
@@ -691,7 +902,10 @@
       document.getElementById("skillsInput").value = userSkills.join(", ");
 
       const key = goalRaw.toLowerCase();
+      const isFallback = !careerDatabase[key];
       const matchedTrack = careerDatabase[key] || careerDatabase["artificial intelligence"];
+
+      currentAnalysis = { userSkills, goalRaw, level, matchedTrack, isFallback };
 
       document.getElementById("metaChips").innerHTML = `
         <span class="chip">Skills: ${userSkills.join(", ")}</span>
@@ -699,62 +913,15 @@
         <span class="chip">Experience: ${level}</span>
       `;
 
-      let matchedCount = 0;
-      const missingSkills = [];
-      const skillList = document.getElementById("skillList");
-      skillList.innerHTML = "";
-
-      matchedTrack.skills.forEach(reqSkill => {
-        const hasIt = userSkills.some(u => isExactOrTokenMatch(u, reqSkill));
-        if (hasIt) {
-          matchedCount++;
-        } else {
-          missingSkills.push(reqSkill);
-        }
-
-        const tag = document.createElement("span");
-        tag.className = `skill-tag ${hasIt ? "have" : "missing"}`;
-        tag.textContent = hasIt ? `✓ ${reqSkill} (Already have)` : `+ ${reqSkill} (Recommended)`;
-        skillList.appendChild(tag);
-      });
-
-      userSkills.forEach(uSkill => {
-        const inCore = matchedTrack.skills.some(r => isExactOrTokenMatch(uSkill, r));
-        if (!inCore) {
-          const tag = document.createElement("span");
-          tag.className = "skill-tag have";
-          tag.textContent = `✓ ${uSkill} (Bonus skill)`;
-          skillList.appendChild(tag);
-        }
-      });
-
-      // Priority List
-      const priorityList = document.getElementById("priorityList");
-      priorityList.innerHTML = "";
-      if (missingSkills.length === 0) {
-        priorityList.innerHTML = `<div class="priority-item"><span>All core skills covered! Focus on building and deploying end-to-end projects.</span><span class="priority-badge">Ready</span></div>`;
+      const notice = document.getElementById("fallbackNotice");
+      if (isFallback) {
+        notice.style.display = "block";
+        notice.textContent = `Note: "${goalRaw}" is not in the built-in catalog yet, so the Artificial Intelligence track was used as a baseline.`;
       } else {
-        missingSkills.forEach((skill, idx) => {
-          const note = (matchedTrack.skillNotes && matchedTrack.skillNotes[skill]) || `Core foundation for ${goalRaw}.`;
-          const item = document.createElement("div");
-          item.className = "priority-item";
-          item.innerHTML = `
-            <div>
-              <strong>${skill}</strong>
-              <div style="color:#64748b;font-size:0.82rem;margin-top:2px;">${note}</div>
-            </div>
-            <span class="priority-badge">${idx === 0 ? "Priority #1 • Start Here" : `Priority #${idx + 1}`}</span>
-          `;
-          priorityList.appendChild(item);
-        });
+        notice.style.display = "none";
       }
 
-      const baseScore = Math.round((matchedCount / matchedTrack.skills.length) * 100);
-      const bonus = Math.min(15, Math.max(0, (userSkills.length - matchedCount) * 5));
-      const finalScore = Math.min(100, baseScore + bonus);
-
-      document.getElementById("scoreText").textContent = `${finalScore}%`;
-      document.getElementById("scoreBar").style.width = `${finalScore}%`;
+      renderScoreAndSkills();
 
       const roadmapList = document.getElementById("roadmapList");
       roadmapList.innerHTML = "";
@@ -781,12 +948,16 @@
 
       document.getElementById("emptyState").style.display = "none";
       document.getElementById("copyBtn").style.display = "inline-block";
+      document.getElementById("resultContent").style.display = "block";
 
-      const content = document.getElementById("resultContent");
-      content.style.display = "block";
-      content.classList.remove("result-content");
-      void content.offsetWidth;
-      content.classList.add("result-content");
+      saveState();
+    }
+
+    function switchSubtab(name, btn) {
+      document.querySelectorAll(".subtab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".subpanel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(`subpanel-${name}`).classList.add("active");
     }
 
     function resetForm() {
@@ -799,19 +970,20 @@
       document.getElementById("resultContent").style.display = "none";
       document.getElementById("copyBtn").style.display = "none";
       document.getElementById("emptyState").style.display = "block";
-      document.getElementById("skillsInput").focus();
+      completedRecommended.clear();
+      currentAnalysis = null;
+      localStorage.removeItem(STORAGE_KEY);
     }
 
     function copyReport() {
-      const skills = document.getElementById("skillsInput").value;
-      const goal = document.getElementById("goalInput").value;
-      const level = document.getElementById("levelSelect").value;
+      if (!currentAnalysis) return;
+      const { userSkills, goalRaw, level } = currentAnalysis;
       const score = document.getElementById("scoreText").textContent;
       const skillItems = Array.from(document.querySelectorAll("#skillList .skill-tag"))
         .map(el => "- " + el.textContent)
         .join("\n");
 
-      const text = `Skills: ${skills}\nCareer Goal: ${goal}\nExperience: ${level}\nReadiness: ${score}\n\nSkills Breakdown:\n${skillItems}`;
+      const text = `Skills: ${userSkills.join(", ")}\nCareer Goal: ${goalRaw}\nExperience: ${level}\nReadiness: ${score}\n\nSkills Breakdown:\n${skillItems}`;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById("copyBtn");
         btn.textContent = "Copied!";
@@ -819,9 +991,32 @@
       });
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      setTimeout(askFormStepByStep, 200);
-    });
+    function saveState() {
+      if (!currentAnalysis) return;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        skills: document.getElementById("skillsInput").value,
+        goal: document.getElementById("goalInput").value,
+        level: document.getElementById("levelSelect").value,
+        completed: Array.from(completedRecommended)
+      }));
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (data.skills && data.goal && data.level) {
+          document.getElementById("skillsInput").value = data.skills;
+          document.getElementById("goalInput").value = data.goal;
+          document.getElementById("levelSelect").value = data.level;
+          completedRecommended = new Set(data.completed || []);
+          analyzeCareer();
+        }
+      } catch (_) {}
+    }
+
+    window.addEventListener("DOMContentLoaded", loadState);
   </script>
 </body>
 </html>
